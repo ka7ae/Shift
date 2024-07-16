@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div  id="loader">
+        <div class="loader">
+            <img src="../../static/image/unagi.png" alt="ウナギ" class="unagi">
+        </div>
+        <div class="loading">loading...</div>
+    </div>
+  
+    <div class="content" id="content" style="display: none;">
+        <div class="login-body">
+            <div class="login-container">
+                <button><a href="{% url 'accounts:login' %}" class="btn btn-primary">Login</a></button>
+                <br>
+                <button><a href="{% url 'accounts:registar' %}" class="btn btn-primary">Registar</a></button>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="../../static/js/javascript.js"></script>
+    
+  
+{% endblock content %}

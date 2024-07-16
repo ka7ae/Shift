@@ -1,0 +1,39 @@
+
+{% if user.is_authenticated %}
+<div class="top">
+   <!-- <span class="h2">{{ user.account_id }}</span> -->
+    <div class="home-body">
+            <div class="nav">
+                <a class="home" href="{% url 'accounts:home' %}">
+                    <img class="open" src="../../static/image/home.png" title="Menu" width="30px">
+                </a>
+                <a class="item_profile" href="{% url 'accounts:profile' %}">
+                    <img  src="../../static/image/profile.png" alt="User" >
+                </a>
+                <a class="item_create_shift" href="{% url 'accounts:create_shift' %}">
+                    <img  src="../../static/image/schedule.png" alt="Create_shift" >
+                </a>
+                <a class="item_shift" href="{% url 'accounts:shift' %}">
+                    <img  src="../../static/image/calendar.png" alt="Shift" >
+                </a>
+                
+                <form method="post" action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}
+                        <button class="logout-button" type="submit">
+                            <img src="../../static/image/logout.png" alt="Logout">
+                        </button>
+                </form>
+
+
+            </div>
+        
+        
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+<script src="../../static/js/move.js"></script>
+
+{% endif %}
+
