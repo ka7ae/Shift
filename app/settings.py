@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-# import dj_database_url
+import dj_database_url
 # 追加
 import os
 import environ
@@ -30,10 +30,14 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m_&@%)em=c5a+nb5bjisrt!zsshyh&52bw@drtns9#az+$*4+v'
+SECRET_KEY = env("SECRET_KEY")
 
+SUPERUSER_NAME = env("SUPERUSER_NAME")
+SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
+SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -48,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig'
+    'accounts'
 ]
 
 AUTH_USER_MODEL = "accounts.User"
@@ -94,19 +98,21 @@ default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+DATABASES = {'default': dj_database_url.config(default=default_dburl)}
+
+# DATABASES = {
+#     "default": config("DATABASE_URL", 
+#                       default=default_dburl, 
+#                       cast=dburl),
+# }
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-DATABASES = {
-    "default": config("DATABASE_URL", 
-                      default=default_dburl, 
-                      cast=dburl),
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -159,6 +165,3 @@ LOGIN_REDIRECT_URL = "accounts:home"  #ログインごのredirectのURL
 LOGOUT_REDIRECT_URL = "accounts:login" #ログアウト後のredirectのURL
 
 
-SUPERUSER_NAME = env("SUPERUSER_NAME")
-SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
-SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
