@@ -37,8 +37,8 @@ SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['127.0.0.1', 'daily-report.onrender.com']
@@ -101,13 +101,13 @@ default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(default=default_dburl)}
+# DATABASES = {'default': dj_database_url.config(default=default_dburl)}
 
-# DATABASES = {
-#     "default": config("DATABASE_URL", 
-#                       default=default_dburl, 
-#                       cast=dburl),
-# }
+DATABASES = {
+    "default": config("DATABASE_URL", 
+                      default=default_dburl, 
+                      cast=dburl),
+}
 
 
 # DATABASES = {
