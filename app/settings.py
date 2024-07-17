@@ -101,7 +101,10 @@ default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(default=default_dburl)}
+# DATABASES = {'default': dj_database_url.config(default=default_dburl)}
+DATABASES = {'default': dj_database_url.parse('postgresql://django_user:aD0Y7KDwl1WAMWvgBOmi3Guq0dp9olqv@localhost:5432/django_render_db'},
+        conn_max_age=600
+}
 
 # DATABASES = {
 #     "default": config("DATABASE_URL", 
