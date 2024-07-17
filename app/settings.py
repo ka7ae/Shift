@@ -39,7 +39,9 @@ SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'daily-report.onrender.com']
+
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
