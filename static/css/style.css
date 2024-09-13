@@ -1,0 +1,587 @@
+body{
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color:  #ffd670;
+    background-image: radial-gradient(circle, #ff9770, #ffd670);
+    color: #4d2600;
+    padding: 1%;
+}
+
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: fixed;
+}
+
+.loading{   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 70% 0 0 35%;
+    height: 100%;
+    font-size: 35px;
+    position: fixed;
+}
+
+.unagi {
+    display: block;
+    margin: auto;
+    width: 50%;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+a{
+    text-decoration: none;
+}
+
+.login-body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container{
+    background-color: #fff2cc;
+    text-align: center;
+    /* height: 60%; */
+    width: 50%;
+    margin: 2%;
+    padding: 40px;
+    border-radius: 50% 20% / 10% 40% ;
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+    
+}
+
+
+form{
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+input {
+    width: 60%;
+    padding: 15px 20px;
+    border: 3px dashed#ff9770;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+    font-size: 16px;
+    background-color: #fffde7;
+}
+
+input:focus{
+    outline: none;
+    border-color: #ff6347;
+    box-shadow: 0 0 10px rgba(255, 99, 71, 0.5);
+    transform: scale(1.05)
+}
+
+button{
+    /* width: 60%; */
+    margin: 5% 0 0 0;
+    padding: 15px;
+    background-color: #ff6347;
+    border: none;
+    border-radius: 50px 20px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3 ease;
+    text-align: center;
+}
+
+button:hover{
+    transform: scale(1.1);
+}
+
+a{
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3 ease;
+}
+
+.top{
+    /* display: flex; */
+    width: 100%;  
+    margin: 0;
+    padding: 0;
+}
+
+.logout-button{
+    text-align: right;
+    margin: 0;
+}
+
+
+
+
+/* navvar.htmlのcss */
+
+
+
+.hamburger{
+    display: block;
+    position: fixed;
+    z-index: 3;
+    right: 20px;
+    top: 20px;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.hamburger span{
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 5px;
+    left: 6px;
+    background: #4d2600;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+.hamburger span:nth-child(1){
+    top: 10px;
+}
+
+.hamburger span:nth-child(2){
+    top: 20px;
+}
+
+.hamburger span:nth-child(3){
+    top: 30px;
+}
+
+
+/* スマホメニューを開いてる時のボタン */
+.hamburger.active span:nth-child(1) {
+    top : 16px;
+    left: 6px;
+    background :#fff;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform   : rotate(-45deg);
+    transform        : rotate(-45deg);
+  }
+  
+  .hamburger.active span:nth-child(2),
+  .hamburger.active span:nth-child(3) {
+    top: 16px;
+    background :#fff;
+    -webkit-transform: rotate(45deg);
+    -moz-transform   : rotate(45deg);
+    transform        : rotate(45deg);
+  }
+  
+  /* メニュー背景　*/
+  nav.globalMenuSp {
+    position: fixed;
+    z-index : 2;
+    top  : 0;
+    left : 0;
+    color: #fff;
+    background: #ffb070e2;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    transform: translateX(100%);
+    transition: all 0.6s;
+  }
+  
+  nav.globalMenuSp ul {
+    margin: 0 auto;
+    padding: 50% 0;
+    width: 100%;
+  }
+  
+  nav.globalMenuSp ul li {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    transition: .4s all;
+  }
+  nav.globalMenuSp ul li:last-child {
+    padding-bottom: 0;
+  }
+  nav.globalMenuSp ul li:hover{
+    background :#ddd;
+  }
+  
+  nav.globalMenuSp ul li a {
+    display: block;
+    color: #4d2600;
+    padding: 1em 0;
+    text-decoration :none;
+  }
+
+  nav.globalMenuSp ul li button {
+    display: block;
+    color: #4d2600;
+    padding: 1em 0;
+    background: none;
+    width: 100%;
+    text-align: center;
+
+  }
+  
+  /* クリックでjQueryで追加・削除 */
+  nav.globalMenuSp.active {
+    opacity: 100;
+    display: block;
+     transform: translateX(0%);
+  }
+
+
+
+h1{
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    font-family: 'Roboro', sans-serif;
+}
+
+.h2{
+    position: absolute;
+    top: 10px;
+    left: 80%;
+}
+
+.h3{
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0 5%;  
+}
+
+
+
+
+
+
+/* home.css */
+
+
+
+.screen{
+    background-color:  #ffd670;
+    background-image: radial-gradient(circle, #ff9770, #ffd670);
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #4d2600;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Home-nav{ 
+    background-color: #fff2cc;
+    text-align: center;
+    height: auto;
+    width: 40%;
+    /* margin: 5%; */
+    padding: 5%;
+    border-radius: 50% 20% / 10% 40% ;
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+    display: block;
+}
+
+.Home-nav ul{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 0;
+}
+
+.Home-nav li{
+    list-style: none;
+    margin: 8% 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Home-nav button{
+    background-color: #be781670;   
+    width: 110px;
+    height: 110px;
+    padding:5%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;   
+}
+
+.Home-nav img{
+    filter: brightness(0);
+    padding: 0;
+}
+
+.profiletab img{
+    width: 70px;
+    height: auto;
+}
+
+.create_shifttab img{
+    width: 105px;
+    height: auto;
+    margin: 3% 0 0 3%;
+}
+
+.logout-buttontab{
+    padding: 10%;
+}
+
+.shifttab img{
+    width: 55px;
+    height: auto;
+}
+
+.logout-buttontab img{
+    width: 100px;
+    height: auto;
+    margin: 3% 0 0 2%;
+}
+
+
+
+
+
+
+/* calendar.css */
+
+
+
+
+
+#calendar{
+   width: 100%;
+}
+
+#shiftModal{
+    position:fixed; 
+    top:50%; 
+    left:50%; 
+    width: 60%; 
+    transform:translate(-50%, -50%); 
+    background:#faf4e1; 
+    padding:20px; 
+    border:1px solid #4d2600;
+}
+
+#shiftModal ul{
+    padding: 0;
+}
+
+#shiftModal li{
+    list-style: none;
+    margin: 15px;
+    font-size: 20px;
+
+}
+
+.title{
+    margin: 20px 80px;
+    /* text-align: center; */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.month{
+    text-align: center;
+}
+
+#currentYearMonth{
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #4d2600;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 0 20px;
+}
+
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 1em;
+    color: #4d2600;
+}
+
+th, td {
+    border: 1px solid #4d2600;
+    padding: 0px;
+    text-align: center;
+    width: 50px; 
+    height: 70px; 
+    box-sizing: border-box;
+}
+
+th {
+    /* background-color: #be781670; */
+    background-color:rgb(215, 149, 95);
+}
+
+td {
+    background-color: #fff2cc;
+}
+
+.today {
+    background-color: rgb(255, 186, 167);
+    font-weight: bold;
+    color: black; /* 文字色を元に戻す */
+}
+
+#month button{
+    background-color: #4d2600;
+    color: #fff2cc;
+}
+
+#nextMonth{
+    border-radius:20px 50px; ;
+}
+
+input[type=radio] {
+    display: none; /* ラジオボタンを非表示にする */
+}
+
+
+input[type="radio"]:checked + label {  /*クリックしたときの色 */
+    background: #ffd670;/* マウス選択時の背景色を指定する */
+    color: #4d2600; /* マウス選択時のフォント色を指定する */
+    }
+
+.label{
+    margin: 10% 0; /* ラベル外側の余白を指定する */
+    border: 2px dotted #ffb570;;/* ラベルの境界線を実線で指定する */
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+    padding: 3px;
+    cursor: pointer;
+}
+
+
+#shiftInput{
+    display: none;
+}
+
+.shift-info{
+    text-align: center;
+}
+
+.shift-info span{
+    margin: 3px 10px;
+    font-size: 20px;
+}
+
+
+
+
+
+/* profile.html */
+
+
+
+.profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.profile-container{
+    background-color: #fff2cc;
+    text-align: center;
+    top: 50%;
+    /* height: 60%; */
+    width: 50%;
+    margin: 2%;
+    padding: 40px;
+    border-radius: 50% 20% / 10% 40% ;
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+    
+}
+
+#image-container{
+    width: 100%;
+    height: 100%;
+}
+
+#image-container img{
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#file{
+    display: none;
+}
+
+#button{
+    color: #4d2600;
+    margin: 0 0 0 10px;
+    border: dotted #4d2600;
+    border-radius: 50% 20%;
+}
+
+
+
+
+
+/* 表シフト */
+
+
+
+
+#shiftTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#shiftTable th, #shiftTable td {
+    border: 1px solid #4d2600;
+    padding: 8px;
+    text-align: center;
+    background-color: #fff2cc;
+}
+
+#shiftTable th {
+    background-color: rgb(215, 149, 95);
+}
+
+#shiftTable td:first-child {
+    font-weight: bold;
+    background-color: rgb(215, 149, 95);
+}
+
+
+
+
+
+
+
+
+

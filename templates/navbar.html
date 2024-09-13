@@ -1,0 +1,40 @@
+
+{% if user.is_authenticated %}
+<div class="top">
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <nav class="globalMenuSp">
+        <ul>
+            <li>
+                <a class="home" href="{% url 'accounts:home' %}">ホーム</a>
+            </li>
+            <li>
+                <a class="item_profile" href="{% url 'accounts:profile' %}">設定</a>
+            </li>
+            <li>
+                <a class="item_create_shift" href="{% url 'accounts:create_shift' %}">シフト提出</a>
+            </li>
+            <li>
+                <a class="item_shift" href="{% url 'accounts:shift' %}">カレンダーシフト</a>
+            </li>
+            <li>
+                <a class="item_shift" href="{% url 'accounts:table' %}">表シフト</a>
+            </li>
+            <li>
+                <form method="post" action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}
+                        <button class="logout-button" type="submit">ログアウト</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<script src="../../static/js/navber.js"></script>
+
+{% endif %}
+

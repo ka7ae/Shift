@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<!-- {% include 'navbar.html' %} -->
+
+<div class="title">Submit Page -- {{user.username}}</div>
+
+<!-- <h3>Today is <span id="currentDate"></span></h3> -->
+<div id="month">
+    <button id="prevMonth">＜</button>
+    <span id="currentYearMonth"></span>
+    <button id="nextMonth">＞</button>
+</div>
+<br>
+
+<div id="calendar"></div>
+
+<div id="shiftModal" style="display:none;">
+        <h3 id="modalDate"></h3>
+        <label for="shiftInput"></label>
+        <input type="text" id="shiftInput">
+        <br>
+        <ul>
+           <li>
+            <input type="radio" id="lunchShift" name="shiftType" value="Lunch">
+            <label for="lunchShift" class="label">Lunch</label>
+           </li>
+           <li>
+            <input type="radio" id="dinnerShift" name="shiftType" value="Dinner">
+            <label for="dinnerShift" class="label">Dinner</label>
+</li>
+<li>
+            <input type="radio" id="orShift" name="shiftType" value="Or">
+            <label for="orShift" class="label">L or D</label>
+</li><li>
+            <input type="radio" id="fullShift" name="shiftType" value="Full">
+            <label for="fullShift" class="label">Full</label>
+        </li>
+    </ul>
+        
+        <br>
+        <button id="cancelShift">×</button>
+        <button id="saveShift">保存</button>
+        <button id="deleteShift">削除</button>
+
+</div>
+
+
+<!-- <input type = "hidden" id = "csrfToken" value = "{% csrf_token %}" > -->
+
+<script>
+
+     function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrfToken = getCookie('csrftoken');
+    // const shifts = JSON.parse('{{ shifts|safe }}');
+    const shiftData = JSON.parse('{{ shift_data|escapejs }}');
+    shifts = shiftData; 
+
+</script>
+
+
+<script src="../../static/js/calendar.js"></script>
+
+
+{% endif %}
+{% endblock content %}

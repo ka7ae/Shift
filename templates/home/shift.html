@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<!-- {% include 'navbar.html' %} -->
+
+<div class="title">Shift Page </div>
+
+<!-- <h3>Today is <span id="currentDate"></span></h3> -->
+<div id="month">
+    <button id="prevMonth">＜</button>
+    <span id="currentYearMonth"></span>
+    <button id="nextMonth">＞</button>
+</div>
+<br>
+
+<div id="calendar"></div>
+
+<div id="shiftModal" style="display:none;">
+        <h3 id="modalDate"></h3>
+        <div id="shiftInfoContainer"></div>
+        <button id="cancelShift">×</button>
+</div>
+
+<script src="../../static/js/shift.js"></script>
+
+
+{% endif %}
+{% endblock content %}

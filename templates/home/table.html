@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+<div id="month">
+    <button id="prevMonth">＜</button>
+    <span id="currentYearMonth"></span>
+    <button id="nextMonth">＞</button>
+</div>
+<br>
+
+<div id="shiftTable"></div>
+
+<!-- <div id="shiftInfoContainer"></div> -->
+
+
+
+
+<script src="../../static/js/table.js"></script>
+
+
+{% endif %}
+{% endblock content %}
