@@ -24,7 +24,7 @@ function generateShiftTable(year, month) {
 
     let tableHtml = '<table><thead><tr><th>日付</th>';
     employees.forEach(employee => {
-        tableHtml += `<th>${employee}</th>`;
+        tableHtml += `<th>${employee.lastname}</th>`;
     });
     tableHtml += '</tr></thead><tbody>';
 
@@ -39,23 +39,15 @@ function generateShiftTable(year, month) {
         employees.forEach(employee => {
             
             //shiftInfoContainer.innerHTML = '';  // 表示をリセット
-            const shiftData = shifts[formattedDate]?.find(s => s.user === employee);
+            const shiftData = shifts[formattedDate]?.find(s => s.user === employee.account_id);
 
-            // const shiftTypeElItem = document.createElement('span');
-            // shiftTypeElItem.textContent = shiftData.shift_type;
-            // shiftInfo.appendChild(shiftTypeElItem);
-
-            // shiftInfoContainer.appendChild(shiftInfo);
-
-            // tableHtml += `<td>${shiftInfoContainer}</td>`;
-
-            // const shiftSymbol = getShiftSymbol(shiftData ? shift_type : '×');
             const shiftSymbol = getShiftSymbol(shiftData?.shift_type);
             tableHtml += `<td class="shift_symbol">${shiftSymbol}</td>`;
 
         });
 
         tableHtml += '</tr>';
+        
     }
 
     tableHtml += '</tbody></table>';
@@ -70,11 +62,15 @@ function getUniqueEmployees(year, month) {
         const formattedDate = formatDate(new Date(year, month, day));
         if (shifts[formattedDate]) {
             shifts[formattedDate].forEach(shift => {
-                if (shift.user) employees.add(shift.user);
+                //if (shift.user) employees.add(shift.user);
+                if (shift.user && shift.lastname) {
+                    employees.set(shift.user, { account_id: shift.user, lastname: shift.lastname });
+                }
             });
         }
     }
-    return Array.from(employees);
+    // return Array.from(employees);
+    return Array.from(employees.values());
 }
 
 function getShiftSymbol(shiftType) {
@@ -83,7 +79,6 @@ function getShiftSymbol(shiftType) {
         case 'Lunch': return '△';   // Lunchは△
         case 'Or': return '☆';      // Orは★
         case 'Full': return '◎';    // Fullは◎
-        // case null: return '×';      // nullは×
         default: return '×';
     }
 }
@@ -118,7 +113,8 @@ async function fetchShifts() {
                 acc[shift.date] = [];
             }
             acc[shift.date].push({
-                user: shift.user,
+                user: shift.user.account_id,
+                username: shift.user.lastname,
                 shift: shift.shift,
                 shift_type: shift.shift_type,
             });

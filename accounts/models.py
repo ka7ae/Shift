@@ -11,43 +11,55 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, email, username, account_id, password, **extra_fields):
+    def _create_user(self, email,firstname, lastname, account_id, password, **extra_fields):
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username, account_id=account_id, **extra_fields)
+        user = self.model(email=email, firstname=firstname, lastname=lastname, account_id=account_id, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_user(self, email, username, account_id, password=None, **extra_fields):
+    def create_user(self, email, firstname, lastname, account_id, password=None, **extra_fields):
             extra_fields.setdefault('is_staff', False)
             extra_fields.setdefault('is_superuser', False)
             return self._create_user(
                 email=email,
-                username=username,
+                firstname=firstname,
+                lastname=lastname,
                 account_id=account_id,
                 password=password,
                 **extra_fields,
             )
 
-    def create_superuser(self, email, username, account_id, password, **extra_fields):
+    def create_superuser(self, email, firstname, lastname, account_id, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self._create_user(
             email=email,
-            username=username,
+            firstname=firstname,
+            lastname=lastname,
             account_id=account_id,
             password=password,
             **extra_fields,
         )
     
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(
-    verbose_name=_("username"),
-    unique=True,
-    max_length=10,
-    null=True
+
+    firstname = models.CharField(
+        verbose_name=_("firstname"),
+        unique=True,
+        max_length=10,
+        blank=True
     )
+
+
+    lastname = models.CharField(
+        verbose_name=_("lastname"),
+        unique=True,
+        max_length=10,
+        blank=True
+    )
+
 
     account_id = models.CharField(
         verbose_name=_("account_id"),
@@ -70,13 +82,24 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False
     )
 
+    is_active = models.BooleanField(
+        verbose_name=_('active'),
+        default=True,
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
+    REQUIRED_FIELDS = ['email', 'firstname', 'lastname']  # スーパーユーザー作成時にemailも設定する
 
     def __str__(self):
         return self.account_id
+    
+    def get_full_name(self):
+        return f"{self.firstname} {self.lastname}"
+
+    def get_short_name(self):
+        return self.firstname
 
 
 class Shift(models.Model):
@@ -91,6 +114,10 @@ class Shift(models.Model):
     ))
 
     def __str__(self):
-        return f"{self.user}: {self.date}: {self.shift} ({self.shift_type})"
+        return f"{self.user.lastname}: {self.date}: {self.shift} ({self.shift_type})"
         # return f"{self.date}: {self.shift} ({self.shift_type})"
+
+    @property
+    def lastname(self):
+        return self.user.lastname
     

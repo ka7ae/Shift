@@ -9,11 +9,11 @@ class RegistarForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-            'username',
+            #'username',
             "account_id",
             "email",
-            #"first_name",
-            #"last_name",
+            "first_name",
+            "last_name",
             #"birth_date",
         )
 
@@ -27,7 +27,7 @@ class LoginFrom(AuthenticationForm):
 class ShiftForm(forms.ModelForm):
     class Meta:
         model = Shift
-        fields = ['date', 'shift', 'shift_type']
+        fields = ['firstname','lastname', 'date', 'shift', 'shift_type']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
