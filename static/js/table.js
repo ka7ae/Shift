@@ -24,7 +24,7 @@ function generateShiftTable(year, month) {
 
     let tableHtml = '<table><thead><tr><th>日付</th>';
     employees.forEach(employee => {
-        tableHtml += `<th>${employee.lastname}</th>`;
+        tableHtml += `<th>${employee.last_name}</th>`;
     });
     tableHtml += '</tr></thead><tbody>';
 
@@ -63,8 +63,8 @@ function getUniqueEmployees(year, month) {
         if (shifts[formattedDate]) {
             shifts[formattedDate].forEach(shift => {
                 //if (shift.user) employees.add(shift.user);
-                if (shift.user && shift.lastname) {
-                    employees.set(shift.user, { account_id: shift.user, lastname: shift.lastname });
+                if (shift.user && shift.last_name) {
+                    employees.set(shift.user, { account_id: shift.user, last_name: shift.last_name });
                 }
             });
         }
@@ -114,7 +114,7 @@ async function fetchShifts() {
             }
             acc[shift.date].push({
                 user: shift.user.account_id,
-                username: shift.user.lastname,
+                username: shift.user.last_name,
                 shift: shift.shift,
                 shift_type: shift.shift_type,
             });

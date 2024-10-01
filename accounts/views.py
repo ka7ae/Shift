@@ -167,10 +167,10 @@ def get_allshifts(request):
         for shift in shifts:
             shift_list.append({
                 'date': shift.date.strftime('%Y-%m-%d'),
-                # 'user': shift.user.lastname,
+                # 'user': shift.user.last_name,
                 'user': {
                     'account_id': shift.user.account_id,
-                    'lastname': shift.user.lastname,
+                    'last_name': shift.user.last_name,
                 },
                 'shift': shift.shift,
                 'shift_type': shift.shift_type,
