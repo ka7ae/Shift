@@ -5,7 +5,7 @@ const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const shiftModal = document.getElementById('shiftModal');
 const modalDateEl = document.getElementById('modalDate');
-const shiftInput = document.getElementById('shiftInput');
+// const shiftInput = document.getElementById('shiftInput');
 const saveShiftBtn = document.getElementById('saveShift');
 const cancelShiftBtn = document.getElementById('cancelShift');
 const deleteShiftBtn = document.getElementById('deleteShift');
@@ -46,20 +46,26 @@ function displayCurrentYearMonth(year, month) {
 function openShiftModal(date) {
     const formattedDate = formatDate(date);
     modalDateEl.textContent = formattedDate;
-    shiftInput.value = shifts[formattedDate] ? shifts[formattedDate].shift : ''; // 既存のシフト情報を表示
+    // shiftInput.value = shifts[formattedDate] ? shifts[formattedDate].shift : ''; // 既存のシフト情報を表示
 
     
     if (shifts[formattedDate]) {
         const shiftType = shifts[formattedDate].shift_type;
-        document.getElementById('lunchShift').checked = shiftType === 'Lunch';
-        document.getElementById('dinnerShift').checked = shiftType === 'Dinner';
-        document.getElementById('orShift').checked = shiftType === 'Or';
-        document.getElementById('fullShift').checked = shiftType === 'Full';
+        document.getElementById('lunchShift').checked = shiftType === '△';
+        document.getElementById('dinnerShift').checked = shiftType === '○';
+        document.getElementById('11Shift').checked = shiftType === '11';
+        document.getElementById('17Shift').checked = shiftType === '17';
+        document.getElementById('orShift').checked = shiftType === '☆';
+        document.getElementById('fullShift').checked = shiftType === '◎';
+        document.getElementById('NoShift').checked = shiftType === '✕';
     } else {
         document.getElementById('lunchShift').checked = false;
         document.getElementById('dinnerShift').checked = false;
+        document.getElementById('11Shift').checked = false;
+        document.getElementById('17Shift').checked = false;
         document.getElementById('orShift').checked = false;
         document.getElementById('fullShift').checked = false;
+        document.getElementById('NoShift').checked = false;
     }
 
     shiftModal.style.display = 'block';
@@ -71,9 +77,9 @@ function closeShiftModal() {
 }
 
 
-async function deleteShift(date, shift, shiftType) {
+async function deleteShift(date, shiftType) {
     const url = '/shift_delete/';  // DjangoのビューにDELETEするURL
-    const data = { date, shift, shift_type: shiftType };
+    const data = { date, shift_type: shiftType };
 
     try {
         const response = await fetch(url, {
@@ -103,9 +109,9 @@ async function deleteShift(date, shift, shiftType) {
 }
 
 
-async function saveShift(date, shift, shiftType) {
+async function saveShift(date,  shiftType) {
     const url = '/shift_form/';  // DjangoのビューにPOSTするURL
-    const data = { date, shift, shift_type: shiftType };
+    const data = { date,  shift_type: shiftType };
 
     try {
         const response = await fetch(url, {
@@ -126,8 +132,9 @@ async function saveShift(date, shift, shiftType) {
             throw new Error(result.message || 'Failed to save shift');
         }
 
-        console.log('Shift saved successfully');
-        shifts[date] = { shift, shift_type: shiftType }; //シフトデータを更新
+        console.log('Shift saved successfully'); 
+        shifts[date] = { shift_type: shiftType }; //シフトデータを更新
+        // console.log(shiftType);
         generateCalendar(currentYear, currentDisplayedMonth); // カレンダーを再描画
         closeShiftModal();
     } catch (error) {
@@ -160,6 +167,7 @@ function generateCalendar(year, month) {
         const date = new Date(year, month, i);
 
         const formattedDate = formatDate(date);
+        // console.log(formattedDate);
         const shiftData = shifts[formattedDate] || {};
         const shiftType = shiftData.shift_type ? shiftData.shift_type : '';
         calendarHtml += `<td class="${isToday ? 'today' : ''}" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${i}<br>${shiftType}</td>`;
@@ -202,7 +210,6 @@ async function fetchShifts() {
 
         shiftsData.forEach(shift => {
             shifts[shift.date] = {
-                shift: shift.shift,
                 shift_type: shift.shift_type,
             };
         });
@@ -236,7 +243,7 @@ nextMonthBtn.addEventListener('click', () => {
 
 saveShiftBtn.addEventListener('click', () => {
     const date = modalDateEl.textContent;
-    const shift = shiftInput.value;
+    // const shift = shiftInput.value;
     const shiftTypeElement = document.querySelector('input[name="shiftType"]:checked');
 
     if (!shiftTypeElement) {
@@ -245,17 +252,18 @@ saveShiftBtn.addEventListener('click', () => {
     }
 
     const shiftType = shiftTypeElement.value;
-    saveShift(date, shift, shiftType);
+    saveShift(date, shiftType);
 });
 
 cancelShiftBtn.addEventListener('click', closeShiftModal);
 
 deleteShiftBtn.addEventListener('click', () => {
     const date = modalDateEl.textContent;
-    const shift = shiftInput.value;
+    // const shift = shiftInput.value;
     const shiftTypeElement = document.querySelector('input[name="shiftType"]:checked');
     const shiftType = shiftTypeElement.value;
-    deleteShift(date, shift, shiftType);
+    // console.log(shiftType);
+    deleteShift(date, shiftType);
     // deleteShift(formatDateForDeletion(new Date(date)), shift, shiftType);  // 修正: 引数を追加
 });
 

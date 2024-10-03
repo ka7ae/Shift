@@ -5,14 +5,13 @@ from .models import User, Shift
 # from .models import Shift
 from django import forms
 
-# User = get_user_model()
 
 class RegistarForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            "first_name",
             "last_name",
+            "first_name",
             "account_id",
             "email",
         ]
@@ -36,7 +35,7 @@ class LoginFrom(AuthenticationForm):
 class ShiftForm(forms.ModelForm):
     class Meta:
         model = Shift
-        fields = ['user', 'date', 'shift', 'shift_type']
+        fields = ['user', 'date', 'shift_type']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }

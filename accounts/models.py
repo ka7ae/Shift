@@ -84,14 +84,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']  # スーパーユーザー作成時にemailも設定する
+    REQUIRED_FIELDS = ['email','last_name','first_name']  # スーパーユーザー作成時にemailも設定する
 
     def __str__(self):
         # return self.account_id
-        return f"{self.first_name}: {self.last_name}: {self.account_id}"
+        return f" {self.last_name}:{self.first_name}: {self.account_id}"
     
     def get_full_name(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.last_name} {self.first_name}"
 
     def get_short_name(self):
         return self.first_name
@@ -100,16 +100,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Shift(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField()
-    shift = models.CharField(max_length=100)
     shift_type = models.CharField(max_length=10, choices=(
-        ('Lunch', 'Lunch'),
-        ('Dinner', 'Dinner'),
-        ('Or', 'Or'),
-        ('Full','Full'),
+        ('△', '△'),
+        ('○', '○'),
+        ('11~', '11~'),
+        ('17~', '17~'),
+        ('☆', '☆'),
+        ('◎','◎'),
+        ('✕','✕'),
     ))
 
     def __str__(self):
-        return f"{self.user.last_name}: {self.date}: {self.shift} ({self.shift_type})"
+        return f"{self.user.first_name}: {self.date} ({self.shift_type})"
         # return f"{self.date}: {self.shift} ({self.shift_type})"
 
     # @property

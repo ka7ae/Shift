@@ -19,4 +19,5 @@ urlpatterns = [
     path('shift_delete/', views.shift_delete, name='shift_delete'),
     path('get_shifts/', views.get_shifts, name='get_shifts'),
     path('get_allshifts/', views.get_allshifts, name='get_allshifts'),
+    path('get_allaccounts/', views.get_allaccounts, name='get_allaccounts'),
 ]

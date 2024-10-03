@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
 <!-- {% include 'navbar.html' %} -->
 
-<div class="title">Submit Page -- {{user.username}}</div>
+<div class="title">Submit Page -- {{user.last_name}}{{user.first_name}}</div>
 
 <!-- <h3>Today is <span id="currentDate"></span></h3> -->
 <div id="month">
@@ -18,31 +18,46 @@
 
 <div id="shiftModal" style="display:none;">
         <h3 id="modalDate"></h3>
+        <button id="cancelShift">×</button>
         <label for="shiftInput"></label>
-        <input type="text" id="shiftInput">
+        <!-- <input type="text" id="shiftInput"> -->
         <br>
         <ul>
            <li>
-            <input type="radio" id="lunchShift" name="shiftType" value="Lunch">
-            <label for="lunchShift" class="label">Lunch</label>
+                <input type="radio" id="lunchShift" name="shiftType" value="△">
+                <label for="lunchShift" class="label">ランチ:△</label>
            </li>
            <li>
-            <input type="radio" id="dinnerShift" name="shiftType" value="Dinner">
-            <label for="dinnerShift" class="label">Dinner</label>
-</li>
-<li>
-            <input type="radio" id="orShift" name="shiftType" value="Or">
-            <label for="orShift" class="label">L or D</label>
-</li><li>
-            <input type="radio" id="fullShift" name="shiftType" value="Full">
-            <label for="fullShift" class="label">Full</label>
-        </li>
-    </ul>
+                <input type="radio" id="dinnerShift" name="shiftType" value="○">
+                <label for="dinnerShift" class="label">ディナー:○</label>
+            </li>
+            <li>
+                <input type="radio" id="11Shift" name="shiftType" value="11">
+                <label for="11Shift" class="label">11時～</label>
+            </li>
+            <li>
+                <input type="radio" id="17Shift" name="shiftType" value="17">
+                <label for="17Shift" class="label">17時～</label>
+            </li>
+            <li>
+                <input type="radio" id="orShift" name="shiftType" value="☆">
+                <label for="orShift" class="label">どっちでも:☆</label>
+            </li>
+            <li>
+                <input type="radio" id="fullShift" name="shiftType" value="◎">
+                <label for="fullShift" class="label">オーラス:◎</label>
+            </li>
+            <li>
+                <input type="radio" id="NoShift" name="shiftType" value="✕">
+                <label for="NoShift" class="label">休み:×</label>
+            </li>
+        </ul>
         
         <br>
-        <button id="cancelShift">×</button>
-        <button id="saveShift">保存</button>
+
+        
         <button id="deleteShift">削除</button>
+        <button id="saveShift">保存</button>
 
 </div>
 

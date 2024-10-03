@@ -76,7 +76,7 @@ input {
     width: 60%;
     padding: 15px 20px;
     border: 3px dashed#ff9770;
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+    /* border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ; */
     font-size: 16px;
     background-color: #fffde7;
 }
@@ -399,6 +399,7 @@ h1{
     list-style: none;
     margin: 15px;
     font-size: 20px;
+    /* display: inline; */
 
 }
 
@@ -475,16 +476,16 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 
 .label{
     margin: 10% 0; /* ラベル外側の余白を指定する */
-    border: 2px dotted #ffb570;;/* ラベルの境界線を実線で指定する */
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
-    padding: 3px;
+    /* border: 2px dotted #ffb570;;ラベルの境界線を実線で指定する */
+    /* border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ; */
+    padding: 5px;
     cursor: pointer;
 }
 
 
-#shiftInput{
+/* #shiftInput{
     display: none;
-}
+} */
 
 .shift-info{
     text-align: center;
@@ -578,6 +579,28 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 
+
+#shiftSelectModal{
+    position:fixed; 
+    top:50%; 
+    left:50%; 
+    width: 60%; 
+    transform:translate(-50%, -50%); 
+    background:#faf4e1; 
+    padding:20px; 
+    border:1px solid #4d2600;
+}
+
+#shiftSelectModal ul{
+    padding: 0;
+}
+
+#shiftSelectModal li{
+    list-style: none;
+    margin: 15px;
+    font-size: 20px;
+
+}
 
 
 

@@ -65,7 +65,7 @@ class ProfileView(TemplateView):
 class Create_shiftView(View):
     def get(self, request, *args, **kwargs):
         shifts = Shift.objects.all()
-        shift_data = {shift.date.strftime('%Y-%m-%d'): {'shift': shift.shift, 'shift_type': shift.shift_type} for shift in shifts}
+        shift_data = {shift.date.strftime('%Y-%m-%d'): {'shift_type': shift.shift_type} for shift in shifts}
         return render(request, 'home/create_shift.html', {'shift_data': json.dumps(shift_data)})
 
 class ShiftView(TemplateView):
@@ -74,6 +74,14 @@ class ShiftView(TemplateView):
 
 class TableView(TemplateView):
     template_name = "home/table.html"
+    # views.py
+    # def shift_view(request):
+    #     current_user_id = request.user.id  # 現在のユーザーIDを取得
+    #     return render(request, 'home/table.html', {'current_user_id': current_user_id})
+    
+
+
+
 
 
     
@@ -83,7 +91,6 @@ def shift_form(request):
         try:
             data = json.loads(request.body)
             shift_date = data['date']
-            shift = data['shift']
             shift_type = data['shift_type']
             user = request.user
 
@@ -97,7 +104,7 @@ def shift_form(request):
                 return JsonResponse({'status': 'error', 'message': 'Invalid date format'}, status=400)
             
             # shift_instance = Shift(date=shift_date, shift=shift, shift_type=shift_type)
-            shift_instance = Shift(user=user,date=shift_date, shift=shift, shift_type=shift_type)
+            shift_instance = Shift(user=user,date=shift_date, shift_type=shift_type)
 # 追記
             print(f"Shift instance: {shift_instance}")
 
@@ -110,25 +117,22 @@ def shift_form(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
 
-
-
 @csrf_exempt
 def shift_delete(request):
     if request.method == 'DELETE':
         try:
             data = json.loads(request.body)
             shift_date = data['date']
-            shift = data.get('shift', '') 
             shift_type = data['shift_type']
             user = request.user
 
             shift_date = datetime.datetime.strptime(shift_date, '%Y-%m-%d').date()
 
             # print(f"Deleting shift for date: {shift_date}")
-            print(f"Deleting shift for date: {shift_date}, shift: {shift}, shift_type: {shift_type}")
+            print(f"Deleting shift for date: {shift_date}, shift_type: {shift_type}")
 
             # Shift.objects.filter(date=shift_date, shift=shift, shift_type=shift_type).delete()
-            Shift.objects.filter(user=user, date=shift_date, shift=shift, shift_type=shift_type).delete()
+            Shift.objects.filter(user=user, date=shift_date,  shift_type=shift_type).delete()
 
             # 追記
             return JsonResponse({'status': 'success'})  # JsonResponseを返却
@@ -153,7 +157,6 @@ def get_shifts(request):
         for shift in shifts:
             shift_list.append({
                 'date': shift.date.strftime('%Y-%m-%d'),
-                'shift': shift.shift,
                 'shift_type': shift.shift_type,
             })
         return JsonResponse({'shifts': shift_list})
@@ -170,16 +173,20 @@ def get_allshifts(request):
                 # 'user': shift.user.last_name,
                 'user': {
                     'account_id': shift.user.account_id,
-                    'last_name': shift.user.last_name,
                 },
-                'shift': shift.shift,
                 'shift_type': shift.shift_type,
             })
         return JsonResponse({'shifts': shift_list})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
 
-    
+def get_allaccounts(request):
+    if request.method == 'GET':
+            accounts = User.objects.all().values('account_id', 'first_name')
+    return JsonResponse({'accounts': list(accounts)})
+
+
+
 
 
 
