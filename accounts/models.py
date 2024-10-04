@@ -40,13 +40,6 @@ class UserManager(BaseUserManager):
         )
     
 class User(AbstractBaseUser, PermissionsMixin):
-    
-    first_name = models.CharField(
-        verbose_name=_("first_name"),
-        # unique=True,
-        max_length=10,
-        blank=True
-    )
 
     last_name = models.CharField(
         verbose_name=_("last_name"),
@@ -54,6 +47,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=10,
         blank=True
     )
+        
+    first_name = models.CharField(
+        verbose_name=_("first_name"),
+        # unique=True,
+        max_length=10,
+        blank=True
+    )
+
+
 
     account_id = models.CharField(
         verbose_name=_("account_id"),
@@ -111,7 +113,7 @@ class Shift(models.Model):
     ))
 
     def __str__(self):
-        return f"{self.user.first_name}: {self.date} ({self.shift_type})"
+        return f"{self.user}: {self.date} ({self.shift_type})"
         # return f"{self.date}: {self.shift} ({self.shift_type})"
 
     # @property
@@ -122,3 +124,16 @@ class Shift(models.Model):
     # def last_name(self):
     #     return self.user.lastname
     
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.TextField()
+    
+    # like = models.ManyToManyField(User, related_name='related_post', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user}: {self.title}: {self.message} ({self.message})"
+    
+    class Meta:
+        ordering = ["-created_at"] #投稿順にクエリを取得

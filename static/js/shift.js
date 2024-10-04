@@ -44,7 +44,7 @@ function openShiftModal(date) {
             shiftInfo.classList.add('shift-info');
 
             const userEl = document.createElement('span');
-            userEl.textContent = shiftData.user.firstname ? shiftData.user.firstname : 'No user_id';
+            userEl.textContent = shiftData.last_name ? shiftData.last_name+shiftData.first_name : 'No user_id';
             shiftInfo.appendChild(userEl);
 
             const shiftTypeElItem = document.createElement('span');
@@ -55,8 +55,10 @@ function openShiftModal(date) {
             
         });
 
-        console.log('shiftData:', shiftData);
-        console.log('shiftData.user:', shiftData.user);
+        console.log('shiftDataArray:', shiftDataArray);
+        // console.log('formattedDate:', formattedDate);
+        console.log('shifts:', shifts);
+        // console.log('shiftData.user:', shiftData.user);
         // console.log('shiftData.user.account_id:', shiftData.user ? shiftData.user : 'N/A');
     }
  
@@ -156,8 +158,8 @@ async function fetchShifts() {
                 shifts[shift.date] = [];
             }
             shifts[shift.date].push({
-                user: shift.user,
-                shift: shift.shift,
+                first_name: shift.user.first_name,
+                last_name: shift.user.last_name,
                 shift_type: shift.shift_type,
             });
         });

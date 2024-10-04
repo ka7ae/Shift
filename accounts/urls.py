@@ -15,9 +15,13 @@ urlpatterns = [
     path('home/create_shift/', views.Create_shiftView.as_view(), name="create_shift"),
     path('home/shift/', views.ShiftView.as_view(), name="shift"),
     path('home/table/', views.TableView.as_view(), name="table"),
+    path('home/board/', views.BoardView.as_view(), name="board"),
+    path('home/create/', views.CreatePostView.as_view(), name="create"),
     path('shift_form/', views.shift_form, name='shift_form'),
     path('shift_delete/', views.shift_delete, name='shift_delete'),
     path('get_shifts/', views.get_shifts, name='get_shifts'),
     path('get_allshifts/', views.get_allshifts, name='get_allshifts'),
     path('get_allaccounts/', views.get_allaccounts, name='get_allaccounts'),
+    # path('like-home/<int:pk>', views.LikeHome.as_view(), name='like-home'),
+
 ]

@@ -1,23 +1,24 @@
 #from django.shortcuts import render
 
 # Create your views here.
+from django.forms import BaseModelForm
 from django.shortcuts import render, redirect
-from .models import User, Shift
+from .models import User, Shift, Post
 from django.views import View
-from django.views.generic import  CreateView, TemplateView
+from django.views.generic import  CreateView, TemplateView,ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
 from django.urls import reverse_lazy
-from .forms import RegistarForm , LoginFrom, ShiftForm
-# , ShiftForm # ログインフォームをimport
-from django.http import JsonResponse
+from .forms import RegistarForm , LoginFrom, ShiftForm, PostForm
+from django.http import HttpResponse, JsonResponse
 import json
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 
 
 
-class IndexView(TemplateView):
+class IndexView(TemplateView, LoginRequiredMixin):
     template_name = "index.html"
 
 
@@ -46,10 +47,10 @@ class LogoutView(BaseLogoutView):
     success_url = reverse_lazy("index")
 
 
-class HomeView(TemplateView):
+class HomeView(TemplateView, LoginRequiredMixin):
     template_name = "home/home.html"
 
-class ProfileView(TemplateView):
+class ProfileView(TemplateView, LoginRequiredMixin):
     template_name = "home/profile.html"
 
 # class CalendarView(TemplateView):
@@ -62,26 +63,61 @@ class ProfileView(TemplateView):
 #         context['shifts'] = shift_data
 #         return context
 
-class Create_shiftView(View):
+class Create_shiftView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         shifts = Shift.objects.all()
         shift_data = {shift.date.strftime('%Y-%m-%d'): {'shift_type': shift.shift_type} for shift in shifts}
         return render(request, 'home/create_shift.html', {'shift_data': json.dumps(shift_data)})
 
-class ShiftView(TemplateView):
+class ShiftView(TemplateView, LoginRequiredMixin):
     template_name = "home/shift.html"
     
 
-class TableView(TemplateView):
+class TableView(TemplateView, LoginRequiredMixin):
     template_name = "home/table.html"
-    # views.py
-    # def shift_view(request):
-    #     current_user_id = request.user.id  # 現在のユーザーIDを取得
-    #     return render(request, 'home/table.html', {'current_user_id': current_user_id})
-    
 
 
+class BoardView(ListView, LoginRequiredMixin):
+    model = Post
+    template_name = "home/board.html"
 
+class CreatePostView(CreateView, LoginRequiredMixin):
+    model = Post
+    form_class = PostForm
+    template_name = "home/create_post.html"
+    # fields = ['title','message']
+    success_url = reverse_lazy("accounts:board")
+
+    # def form_valid(self, form):
+    #     form.instance.user = self.request.user
+    #     return super().form_valid(form)
+
+
+# class LikeBase(View, LoginRequiredMixin):
+#    """いいねのベース。リダイレクト先を以降で継承先で設定"""
+#    def get(self, request, *args, **kwargs):
+#        #記事の特定
+#        pk = self.kwargs['pk']
+#        related_post = Post.objects.get(pk=pk)
+       
+#        #いいねテーブル内にすでにユーザーが存在する場合   
+#        if self.request.user in related_post.like.all(): 
+#            #テーブルからユーザーを削除 
+#            obj = related_post.like.remove(self.request.user)
+#        #いいねテーブル内にすでにユーザーが存在しない場合
+#        else:
+#            #テーブルにユーザーを追加                           
+#            obj = related_post.like.add(self.request.user)  
+#        return obj
+
+
+# class LikeHome(LikeBase):
+#    """HOMEページでいいねした場合"""
+#    def get(self, request, *args, **kwargs):
+#        #LikeBaseでリターンしたobj情報を継承
+#        super().get(request, *args, **kwargs)
+#        #homeにリダイレクト
+#        return redirect('accounts:board')
 
 
     
@@ -129,7 +165,7 @@ def shift_delete(request):
             shift_date = datetime.datetime.strptime(shift_date, '%Y-%m-%d').date()
 
             # print(f"Deleting shift for date: {shift_date}")
-            print(f"Deleting shift for date: {shift_date}, shift_type: {shift_type}")
+            # print(f"Deleting shift for date: {shift_date}, shift_type: {shift_type}")
 
             # Shift.objects.filter(date=shift_date, shift=shift, shift_type=shift_type).delete()
             Shift.objects.filter(user=user, date=shift_date,  shift_type=shift_type).delete()
@@ -172,7 +208,9 @@ def get_allshifts(request):
                 'date': shift.date.strftime('%Y-%m-%d'),
                 # 'user': shift.user.last_name,
                 'user': {
-                    'account_id': shift.user.account_id,
+                    'account_id':shift.user.account_id,
+                    'last_name': shift.user.last_name,
+                    'first_name': shift.user.first_name,
                 },
                 'shift_type': shift.shift_type,
             })

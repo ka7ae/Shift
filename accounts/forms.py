@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm# 追加
 # from django.contrib.auth import get_user_model
 
-from .models import User, Shift
+from .models import User, Shift, Post
 # from .models import Shift
 from django import forms
 
@@ -44,3 +44,18 @@ class ShiftForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['user'].queryset = User.objects.all()
         self.fields['user'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["user", "title", "message"]
+        # widgets = {
+        #     '': forms.DateInput(attrs={'type': 'date'}),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user'].queryset = User.objects.all()
+        self.fields['user'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
+
