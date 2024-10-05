@@ -55,11 +55,6 @@ function openShiftModal(date) {
             
         });
 
-        console.log('shiftDataArray:', shiftDataArray);
-        // console.log('formattedDate:', formattedDate);
-        console.log('shifts:', shifts);
-        // console.log('shiftData.user:', shiftData.user);
-        // console.log('shiftData.user.account_id:', shiftData.user ? shiftData.user : 'N/A');
     }
  
     shiftModal.style.display = 'block';

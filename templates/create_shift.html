@@ -62,9 +62,8 @@
 </div>
 
 
-<!-- <input type = "hidden" id = "csrfToken" value = "{% csrf_token %}" > -->
 
-<script>
+<!-- <script>
 
      function getCookie(name) {
         let cookieValue = null;
@@ -82,11 +81,10 @@
     }
 
     const csrfToken = getCookie('csrftoken');
-    // const shifts = JSON.parse('{{ shifts|safe }}');
     const shiftData = JSON.parse('{{ shift_data|escapejs }}');
     shifts = shiftData; 
 
-</script>
+</script> -->
 
 
 <script src="../../static/js/calendar.js"></script>

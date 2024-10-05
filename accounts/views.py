@@ -26,7 +26,7 @@ class RegistarView(CreateView):
     model = User
     form_class = RegistarForm
     template_name = "accounts/registar.html"
-    success_url = reverse_lazy("accounts:home")
+    success_url = reverse_lazy("accounts:table")
 
     def form_valid(self, form): #ユーザー作成後そのままログイン状態にする
         # login after signup
@@ -47,11 +47,14 @@ class LogoutView(BaseLogoutView):
     success_url = reverse_lazy("index")
 
 
-class HomeView(TemplateView, LoginRequiredMixin):
-    template_name = "home/home.html"
+class TableView(TemplateView, LoginRequiredMixin):
+    template_name = "table.html"
+    
+# class HomeView(TemplateView, LoginRequiredMixin):
+#     template_name = "home/home.html"
 
 class ProfileView(TemplateView, LoginRequiredMixin):
-    template_name = "home/profile.html"
+    template_name = "profile.html"
 
 # class CalendarView(TemplateView):
 #     template_name = "calendar.html"
@@ -67,57 +70,26 @@ class Create_shiftView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
         shifts = Shift.objects.all()
         shift_data = {shift.date.strftime('%Y-%m-%d'): {'shift_type': shift.shift_type} for shift in shifts}
-        return render(request, 'home/create_shift.html', {'shift_data': json.dumps(shift_data)})
+        return render(request, 'create_shift.html', {'shift_data': json.dumps(shift_data)})
 
 class ShiftView(TemplateView, LoginRequiredMixin):
-    template_name = "home/shift.html"
+    template_name = "shift.html"
     
 
-class TableView(TemplateView, LoginRequiredMixin):
-    template_name = "home/table.html"
+
 
 
 class BoardView(ListView, LoginRequiredMixin):
     model = Post
-    template_name = "home/board.html"
+    template_name = "board.html"
+
 
 class CreatePostView(CreateView, LoginRequiredMixin):
     model = Post
     form_class = PostForm
-    template_name = "home/create_post.html"
+    template_name = "create_post.html"
     # fields = ['title','message']
     success_url = reverse_lazy("accounts:board")
-
-    # def form_valid(self, form):
-    #     form.instance.user = self.request.user
-    #     return super().form_valid(form)
-
-
-# class LikeBase(View, LoginRequiredMixin):
-#    """いいねのベース。リダイレクト先を以降で継承先で設定"""
-#    def get(self, request, *args, **kwargs):
-#        #記事の特定
-#        pk = self.kwargs['pk']
-#        related_post = Post.objects.get(pk=pk)
-       
-#        #いいねテーブル内にすでにユーザーが存在する場合   
-#        if self.request.user in related_post.like.all(): 
-#            #テーブルからユーザーを削除 
-#            obj = related_post.like.remove(self.request.user)
-#        #いいねテーブル内にすでにユーザーが存在しない場合
-#        else:
-#            #テーブルにユーザーを追加                           
-#            obj = related_post.like.add(self.request.user)  
-#        return obj
-
-
-# class LikeHome(LikeBase):
-#    """HOMEページでいいねした場合"""
-#    def get(self, request, *args, **kwargs):
-#        #LikeBaseでリターンしたobj情報を継承
-#        super().get(request, *args, **kwargs)
-#        #homeにリダイレクト
-#        return redirect('accounts:board')
 
 
     

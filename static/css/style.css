@@ -1,9 +1,10 @@
 body{
     margin: 0;
     font-family: 'Comic Sans MS', cursive, sans-serif;
-    background-color:  #ffd670;
-    background-image: radial-gradient(circle, #ff9770, #ffd670);
-    color: #4d2600;
+    /* background-color:  #ffd670; */
+    /* background-image: radial-gradient(circle, #ff9770, #ffd670); */
+    background: #668251;
+    color: #270a16;
     padding: 1%;
 }
 
@@ -55,17 +56,19 @@ a{
 }
 
 .login-container{
-    background-color: #fff2cc;
+    background-color: #fceda3;
     text-align: center;
-    /* height: 60%; */
-    width: 50%;
+    width: 60%;
     margin: 2%;
-    padding: 40px;
+    padding: 5%;
     border-radius: 50% 20% / 10% 40% ;
     box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
     
 }
 
+h2{
+    margin: 5% 0 0;
+}
 
 form{
     margin-bottom: 15px;
@@ -74,27 +77,28 @@ form{
 
 input {
     width: 60%;
-    padding: 15px 20px;
-    border: 3px dashed#ff9770;
+    padding: 15px 20px 0;
+    border: none;
+    border-bottom: 1px solid #270a16;
     /* border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ; */
     font-size: 16px;
-    background-color: #fffde7;
+    background-color:#fceda3 ;
 }
 
 input:focus{
     outline: none;
-    border-color: #ff6347;
-    box-shadow: 0 0 10px rgba(255, 99, 71, 0.5);
+    border-color: #270a16;
+    /* box-shadow: 0 0 10px rgba(255, 99, 71, 0.5); */
     transform: scale(1.05)
 }
 
 button{
     /* width: 60%; */
-    margin: 5% 0 0 0;
-    padding: 15px;
-    background-color: #ff6347;
+    margin: 10% 0 0 0;
+    padding: 15px 25px;
+    background-color: #270a16;
     border: none;
-    border-radius: 50px 20px;
+    border-radius:5px;
     color: #fff;
     font-size: 18px;
     font-weight: bold;
@@ -153,7 +157,7 @@ a{
     width: 30px;
     height: 5px;
     left: 6px;
-    background: #4d2600;
+    background: #270a16;
     -webkit-transition: 0.3s ease-in-out;
     -moz-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
@@ -176,7 +180,7 @@ a{
 .hamburger.active span:nth-child(1) {
     top : 16px;
     left: 6px;
-    background :#fff;
+    background :#270a16;
     -webkit-transform: rotate(-45deg);
     -moz-transform   : rotate(-45deg);
     transform        : rotate(-45deg);
@@ -185,7 +189,7 @@ a{
   .hamburger.active span:nth-child(2),
   .hamburger.active span:nth-child(3) {
     top: 16px;
-    background :#fff;
+    background :#270a16;
     -webkit-transform: rotate(45deg);
     -moz-transform   : rotate(45deg);
     transform        : rotate(45deg);
@@ -198,7 +202,7 @@ a{
     top  : 0;
     left : 0;
     color: #fff;
-    background: #ffb070e2;
+    background: #668251;
     text-align: center;
     width: 100%;
     height: 100%;
@@ -227,14 +231,14 @@ a{
   
   nav.globalMenuSp ul li a {
     display: block;
-    color: #4d2600;
+    color: #270a16;
     padding: 1em 0;
     text-decoration :none;
   }
 
   nav.globalMenuSp ul li button {
     display: block;
-    color: #4d2600;
+    color: #270a16;
     padding: 1em 0;
     background: none;
     width: 100%;
@@ -268,102 +272,9 @@ h1{
     left: 80%;
 }
 
-.h3{
-    font-weight: bold;
-    font-size: 30px;
-    margin: 0 5%;  
-}
 
 
 
-
-
-
-/* home.css */
-
-
-
-.screen{
-    background-color:  #ffd670;
-    background-image: radial-gradient(circle, #ff9770, #ffd670);
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    color: #4d2600;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.Home-nav{ 
-    background-color: #fff2cc;
-    text-align: center;
-    height: auto;
-    width: 40%;
-    /* margin: 5%; */
-    padding: 5%;
-    border-radius: 50% 20% / 10% 40% ;
-    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
-    display: block;
-}
-
-.Home-nav ul{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    padding: 0;
-}
-
-.Home-nav li{
-    list-style: none;
-    margin: 8% 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.Home-nav button{
-    background-color: #be781670;   
-    width: 110px;
-    height: 110px;
-    padding:5%; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;   
-}
-
-.Home-nav img{
-    filter: brightness(0);
-    padding: 0;
-}
-
-.profiletab img{
-    width: 70px;
-    height: auto;
-}
-
-.create_shifttab img{
-    width: 105px;
-    height: auto;
-    margin: 3% 0 0 3%;
-}
-
-.logout-buttontab{
-    padding: 10%;
-}
-
-.shifttab img{
-    width: 55px;
-    height: auto;
-}
-
-.logout-buttontab img{
-    width: 100px;
-    height: auto;
-    margin: 3% 0 0 2%;
-}
 
 
 
@@ -388,7 +299,7 @@ h1{
     transform:translate(-50%, -50%); 
     background:#faf4e1; 
     padding:20px; 
-    border:1px solid #4d2600;
+    border:1px solid #270a16;
 }
 
 #shiftModal ul{
@@ -399,24 +310,21 @@ h1{
     list-style: none;
     margin: 15px;
     font-size: 20px;
-    /* display: inline; */
-
 }
 
 .title{
-    margin: 20px 80px;
+    margin:2%;
     /* text-align: center; */
     font-size: 18px;
     font-weight: bold;
 }
 
-.month{
+#month{
     text-align: center;
 }
 
 #currentYearMonth{
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    color: #4d2600;
+    color: #270a16;
     font-weight: bold;
     font-size: 20px;
     padding: 0 20px;
@@ -428,11 +336,11 @@ table {
     border-collapse: collapse;
     width: 100%;
     font-size: 1em;
-    color: #4d2600;
+    color: #270a16
 }
 
 th, td {
-    border: 1px solid #4d2600;
+    border: 1px solid #270a16;
     padding: 0px;
     text-align: center;
     width: 50px; 
@@ -442,11 +350,14 @@ th, td {
 
 th {
     /* background-color: #be781670; */
-    background-color:rgb(215, 149, 95);
+    background: #91632d;
+    /* background: #270a16; */
+    color: #270a16;
+    /* color: #668251; */
 }
 
 td {
-    background-color: #fff2cc;
+    background-color: #faf4e1;
 }
 
 .today {
@@ -456,13 +367,14 @@ td {
 }
 
 #month button{
-    background-color: #4d2600;
-    color: #fff2cc;
+    background-color: #91632d;
+    color: #270a16;
+    /* color:#fceda3; */
+    border-radius: 60%;
+    border:1px solid #270a16;
 }
 
-#nextMonth{
-    border-radius:20px 50px; ;
-}
+
 
 input[type=radio] {
     display: none; /* ラジオボタンを非表示にする */
@@ -470,8 +382,7 @@ input[type=radio] {
 
 
 input[type="radio"]:checked + label {  /*クリックしたときの色 */
-    background: #ffd670;/* マウス選択時の背景色を指定する */
-    color: #4d2600; /* マウス選択時のフォント色を指定する */
+    border: 2px solid #270a16;
     }
 
 .label{
@@ -504,6 +415,7 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 
 
 
+
 .profile{
     display: flex;
     justify-content: center;
@@ -511,18 +423,6 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 
-.profile-container{
-    background-color: #fff2cc;
-    text-align: center;
-    top: 50%;
-    /* height: 60%; */
-    width: 50%;
-    margin: 2%;
-    padding: 40px;
-    border-radius: 50% 20% / 10% 40% ;
-    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
-    
-}
 
 #image-container{
     width: 100%;
@@ -542,17 +442,17 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 #button{
-    color: #4d2600;
+    color: #270a16;
     margin: 0 0 0 10px;
-    border: dotted #4d2600;
-    border-radius: 50% 20%;
+    border: solid #270a16;
+    /* border-radius: 50% 20%; */
 }
 
 
 
 
 
-/* 表シフト */
+/* table.html */
 
 
 
@@ -563,19 +463,19 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 #shiftTable th, #shiftTable td {
-    border: 1px solid #4d2600;
+    border: 1px solid #270a16;
     padding: 8px;
     text-align: center;
-    background-color: #fff2cc;
+    background-color: #faf4e1;
 }
 
 #shiftTable th {
-    background-color: rgb(215, 149, 95);
+    background-color: #91632d;
 }
 
 #shiftTable td:first-child {
     font-weight: bold;
-    background-color: rgb(215, 149, 95);
+    background-color: #91632d;
 }
 
 
@@ -586,9 +486,9 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
     left:50%; 
     width: 60%; 
     transform:translate(-50%, -50%); 
-    background:#faf4e1; 
+    background: #faf4e1; 
     padding:20px; 
-    border:1px solid #4d2600;
+    border:1px solid #270a16;
 }
 
 #shiftSelectModal ul{
@@ -605,28 +505,31 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 
 
 
+/* create_post.css */
+
 
 
 
 .allpost{
-    background-color: #ffded2;
+    background-color: #270a16;
     text-align: center;
-    padding: 2%;
-    border: 2px solid #4d2600;
+    padding: 1%;
+    border: 1px solid #270a16;
     border-radius: 5%;
+    margin: 5% 0;
 }
 
 .postcontent{
     background-color: #faf4e1;
-    padding: 5% ;
+    padding: 6% ;
 }
 
 .posttitle{
     font-size: large;
-    font-size: 25px;
-    text-align: center;
-    border-bottom:1px solid#4d2600;
-    margin: 0% 20%;
+    font-size: 20px;
+    /* text-align: left; */
+    border-bottom:1px solid #270a16;
+    /* margin: 0% 20%; */
     /* text-align: left; */
 }
 
@@ -637,6 +540,7 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 
 .postmessage{
     margin: 5% 0;
+    font-size: 18px;
 }
 
 .posttime{
@@ -645,17 +549,12 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 
 }
 
-/* #createPostModal{
-    background-color: #fff2cc;
-    border: 2px#ff9770;
-    width: 80%;
-}
-   */
+
 
    .dli-plus-circle {
     display: inline-block;
     vertical-align: middle;
-    color: #4d2600;
+    color: #270a16;
     line-height: 1;
     position: relative;
     width: 2.5em;
@@ -693,6 +592,56 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
     transform: rotate(90deg);
   }
 
+
+
+  .create_post{
+    background-color: #faf4e1;
+    text-align: center;
+    margin: 30% 15%;
+    padding: 0% 0% 5%;
+    border: 1px solid #270a16;
+  }
+ 
+  textarea{
+    width: 60%;
+    padding: 15px 20px;
+    border: 1px solid #270a16;
+        /* border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ; */
+    font-size: 16px;
+    background-color: #fffde7;
+}
+    
+textarea:focus{
+    outline: none;
+    border-color: #270a16;
+    transform: scale(1.05)
+}
+  
+input#id_title{
+    background: none;
+ 
+    border: none; 
+    border-bottom:1px solid #270a16;
+}
+
+.createtitle{
+    background-color: #270a16;
+    padding: 3% 0;
+    color: #faf4e1;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sendbutton{
+    background-color: #270a16;
+    color: #faf4e1;
+    font-weight: bold;
+    padding: 3%;
+}
+
+.create_post label {
+    display: none;
+}
 
 
 

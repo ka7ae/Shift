@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
 <!-- {% include 'navbar.html' %} -->
 
-<div class="title">Shift Page </div>
+<div class="title">Shift Page -- {{user.last_name}}{{user.first_name}}</div>
 
 <!-- <h3>Today is <span id="currentDate"></span></h3> -->
 <div id="month">

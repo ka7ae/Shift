@@ -161,7 +161,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'index' #ログインが必要なページに承認していないユーザーがアクセスした場合にredirectされるURL
-LOGIN_REDIRECT_URL = "accounts:home"  #ログインごのredirectのURL
+LOGIN_REDIRECT_URL = "accounts:table"  #ログインごのredirectのURL
 LOGOUT_REDIRECT_URL = "accounts:login" #ログアウト後のredirectのURL
 
 
