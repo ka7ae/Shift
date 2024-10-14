@@ -47,9 +47,8 @@ a{
     text-decoration: none;
 }
 
-.login-body {
-    height: 100vh;
-    margin: 0;
+.login-body{
+    margin: 50% 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -321,6 +320,7 @@ h1{
 
 #month{
     text-align: center;
+    margin: 5% 0 0 0;
 }
 
 #currentYearMonth{
@@ -350,9 +350,9 @@ th, td {
 
 th {
     /* background-color: #be781670; */
-    background: #91632d;
+    background: #270a16;
     /* background: #270a16; */
-    color: #270a16;
+    color: #fff;
     /* color: #668251; */
 }
 
@@ -367,8 +367,8 @@ td {
 }
 
 #month button{
-    background-color: #91632d;
-    color: #270a16;
+    background-color:#270a16;
+    color: #fff;
     /* color:#fceda3; */
     border-radius: 60%;
     border:1px solid #270a16;
@@ -394,9 +394,7 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 
-/* #shiftInput{
-    display: none;
-} */
+
 
 .shift-info{
     text-align: center;
@@ -448,6 +446,41 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
     /* border-radius: 50% 20%; */
 }
 
+#delete-button{
+    color: #270a16;
+    margin: 0 0 0 10px;
+    border: solid #270a16;
+}
+
+.registar-button{
+    text-align: center;
+}
+
+.registar-button button{
+    margin: 0 0 3% 0;
+}
+
+.userList{
+    text-align: center;
+
+}
+
+.userList ul{
+    /* margin: 0; */
+    padding: 0;
+}
+
+.userList li{
+    list-style: none;
+}
+
+.userList button{
+    margin: 2% 0;
+}
+
+.password_change{
+    margin: 3% 0;
+}
 
 
 
@@ -470,37 +503,40 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 #shiftTable th {
-    background-color: #91632d;
+    background-color: #270a16;
 }
 
 #shiftTable td:first-child {
     font-weight: bold;
-    background-color: #91632d;
+    background-color: #270a16;
+    color: #fff;
 }
 
-
-
-#shiftSelectModal{
+#shiftTableModal{
     position:fixed; 
     top:50%; 
     left:50%; 
     width: 60%; 
     transform:translate(-50%, -50%); 
-    background: #faf4e1; 
+    background:#faf4e1; 
     padding:20px; 
     border:1px solid #270a16;
 }
 
-#shiftSelectModal ul{
+#shiftTableModal ul{
     padding: 0;
 }
 
-#shiftSelectModal li{
+#shiftTableModal li{
     list-style: none;
     margin: 15px;
     font-size: 20px;
-
 }
+
+
+
+
+
 
 
 
@@ -522,6 +558,7 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 .postcontent{
     background-color: #faf4e1;
     padding: 6% ;
+    border-radius: 5%;
 }
 
 .posttitle{
@@ -549,9 +586,8 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 
 }
 
-
-
-   .dli-plus-circle {
+.dli-plus-circle {
+    margin: 5% 0 0 0;
     display: inline-block;
     vertical-align: middle;
     color: #270a16;
@@ -566,6 +602,7 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
     left: 85%;
   }
   
+
   .dli-plus-circle > span {
     width: 52%;
     height: 0.25em;

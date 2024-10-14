@@ -13,9 +13,7 @@ class RegistarForm(UserCreationForm):
             "last_name",
             "first_name",
             "account_id",
-            "email",
         ]
-
 
 # ログインフォームを追加
 class LoginFrom(AuthenticationForm):
@@ -23,15 +21,6 @@ class LoginFrom(AuthenticationForm):
         # model = User
         username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Id'}))
         password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
-
-
-# class ShiftForm(forms.ModelForm):
-#     class Meta:
-#         model = Shift
-#         fields = ['first_name','last_name', 'date', 'shift', 'shift_type']
-#         widgets = {
-#             'date': forms.DateInput(attrs={'type': 'date'}),
-#         }
 
 
 class ShiftForm(forms.ModelForm):

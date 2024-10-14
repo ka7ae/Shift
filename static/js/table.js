@@ -2,11 +2,12 @@ const shiftTableEl = document.getElementById('shiftTable');
 const currentYearMonthEl = document.getElementById('currentYearMonth');
 const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
-const currentUserID = document.getElementById('currentuserId');
-// const shiftSelectModal = document.getElementById('shiftSelectModal');
-// const modalSelectDateEl = document.getElementById('modalSelectDate');
-// const cancelShiftBtn = document.getElementById('cancelSelectShift');
-// const saveShiftBtn = document.getElementById('confirmShiftChange');
+// const currentUserID = document.getElementById('currentuserId');
+const shiftModal = document.getElementById('shiftTableModal');
+const modalDateEl = document.getElementById('TablemodalDate');
+const saveShiftBtn = document.getElementById('saveShift');
+// const saveEditShiftBtn = document.getElementById('saveEdit');
+const cancelShiftBtn = document.getElementById('cancelShift');
 
 // const shiftInfoContainer = document.getElementById('shiftInfoContainer')
 
@@ -14,10 +15,7 @@ let currentDate = new Date();
 let allAccounts = {};
 let shifts = {};
 
-console.log("user ID",currentUserID);
-const canEditAllShifts = currentUserID.startWith('0'); //0から始まるか確認
-
-
+const canEditAllShifts = currentUserID.toString().startsWith('0'); //0から始まるか確認
 
 
 function formatDate(date) {
@@ -45,12 +43,60 @@ nextMonthBtn.addEventListener('click', () => {
     generateShiftTable(currentDate.getFullYear(), currentDate.getMonth());
 });
 
+saveShiftBtn.addEventListener('click', () => {
+    const date = modalDateEl.textContent;
+    // const shift = shiftInput.value;
+    const shiftTypeElement = document.querySelector('input[name="shiftType"]:checked');
+
+    if (!shiftTypeElement) {
+        alert('Please select a shift type.');
+        return;
+    }
+
+    const shiftType = shiftTypeElement.value;
+    saveShift(date, shiftType);
+});
+
+cancelShiftBtn.addEventListener('click', closeShiftModal);
+
+
+function openShiftModal(date) {
+    const formattedDate = formatDate(date);
+    modalDateEl.textContent = formattedDate;
+
+    // シフトデータの存在を確認
+    if (shifts[formattedDate] && shifts[formattedDate][0]) { 
+        const shiftData = shifts[formattedDate][0]; // 配列の最初の要素を取得
+ 
+        // shift_type が存在するか確認
+        if (shiftData.shift_type) {
+            const shiftType = shiftData.shift_type;
+
+            // 各チェックボックスの設定
+            document.getElementById('tlunchShift').checked = shiftType === '△';
+            document.getElementById('t11Shift').checked = shiftType === '△11';
+            document.getElementById('tdinnerShift').checked = shiftType === '◯';
+            document.getElementById('t17Shift').checked = shiftType === '◯17';
+            document.getElementById('torShift').checked = shiftType === '☆';
+            document.getElementById('tfullShift').checked = shiftType === '◎';
+            document.getElementById('tNoShift').checked = shiftType === '✕';
+        } else {
+            console.log("No shift_type found for the selected date.");
+        }
+    } else {
+        console.log("No shift data found for the selected date.");
+    }
+
+    shiftModal.style.display = 'block';
+}
+
+
+function closeShiftModal() {
+    shiftModal.style.display = 'none';
+}
 
 
 function generateShiftTable(year, month) {
-    console.log("Generating shift table for", year, month);
-    console.log("allAccounts:", allAccounts);
-    console.log("shifts:", shifts);
     
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month , 1);
@@ -73,12 +119,11 @@ function generateShiftTable(year, month) {
                   ? shifts[formattedDate].find(s => s.user === account.account_id) : null;
             const shiftType = shiftData?shiftData.shift_type : '';
 
-            if(canEditAllShifts || currentUserID === account.account_id){
+            if( canEditAllShifts || currentUserID === account.account_id){
                 tableHtml += `<td class="shift_symbol" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${shiftType}</td>`;
             }else{
                 tableHtml += `<td class="shift_symbol">${shiftType}</td>`;
             }
-
         });
 
                     
@@ -93,6 +138,37 @@ function generateShiftTable(year, month) {
 
 }
 
+async function saveShift(date,  shiftType) {
+    const url = '/shift_form/';  // DjangoのビューにPOSTするURL
+    const data = { date,  shift_type: shiftType };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // CSRFトークンをヘッダーに追加
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save shift');
+        }
+        // 追記
+        const result = await response.json();
+        if (result.status !== 'success') {
+            throw new Error(result.message || 'Failed to save shift');
+        }
+
+        console.log('Shift saved successfully'); 
+        shifts[date] = { shift_type: shiftType }; //シフトデータを更新
+        generateShiftTable(currentYear, currentDisplayedMonth); // カレンダーを再描画
+        closeShiftModal();
+    } catch (error) {
+        console.error('Error saving shift:', error);
+    }
+}
 
 
 async function fetchAccounts() {
@@ -141,12 +217,9 @@ async function fetchallShifts() {
 
 async function initializeData() {
     await Promise.all([fetchAccounts(), fetchallShifts()]);
-    console.log("Account", allAccounts);
-    console.log("shift", shifts);
     generateShiftTable(currentDate.getFullYear(), currentDate.getMonth());
     console.log("shift table generated");
 }
 
 // 初期設定
-// fetchallShifts();
 document.addEventListener('DOMContentLoaded', initializeData);

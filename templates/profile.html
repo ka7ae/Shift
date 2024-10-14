@@ -4,18 +4,93 @@
 {% if user.is_authenticated %}
 
 <div class="title">username  -- {{user.last_name}}{{user.first_name}}</div>
+<div class="title">account_id -- {{user.account_id}} </div>
+
+<div class="text-right">{{ form_name }}</div>
+{% if form_name == "password_change" %}
+{% else %}
+    <button class="password_change"><a href="{% url 'accounts:password_change' %}" class="logout">パスワードの変更</a></button><br>
+{% endif %}
+
+
+
+{% if user.account_id|stringformat:"s"|first == "0" %}
+<!-- account_idが0で始まるユーザーにのみ表示されるコンテンツ -->
+    <div class="registar-button">
+        <h3>ユーザー登録する</h3>
+        <button>
+            <a href="{% url 'accounts:registar' %}" class="btn btn-secondary">追加</a>
+        </button>
+    </div>
+
+
+    <div class="userList">
+        <h3>アカウント一覧</h3>
+        <p>総アカウント数: {{ total_accounts }}</p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ユーザー名</th>
+                    <th>最終ログイン</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in accounts %}
+                <tr>
+                    <td>{{account.account_id}}</td>
+                    <td>{{ account.last_name }}{{account.first_name}}</td>
+                    <td>{{ account.last_login|date:"Y/m/d H:i"|default:"未ログイン" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">アカウントが登録されていません。</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        
+        {% if is_paginated %}
+        <nav aria-label="ページネーション">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">前へ</a></li>
+                {% endif %}
+                <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">次へ</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    
+
+        <button>
+            <a href="{% url 'admin:accounts_user_changelist' %}" class="admin">アカウント編集</a>
+        </button>
+    </div>
+
+
+{% endif %}
+
+
 
 
 
 
 <input type="file" id="file" />
 <a href="javascript:void(0);" id="button">Select photo</a>
+<a href="javascript:void(0);" id="delete-button">Delete photo</a> <!-- 追加: 削除ボタン -->
 <div id="image-container"></div>
 
 
 <script>
 
     var button = document.getElementById('button');
+    var deleteButton = document.getElementById('delete-button');
+    var imageContainer = document.getElementById('image-container');
     // clickされたら
     button.addEventListener('click', function () {
     // inputのclickメソッドを呼ぶ
@@ -27,7 +102,7 @@
             img.src = url;
             // img.height = 400;
             img.width = 350;
-            var imageContainer = document.getElementById('image-container');
+            // var imageContainer = document.getElementById('image-container');
             imageContainer.innerHTML = ''; // 既存の画像を削除
             imageContainer.appendChild(img);
     }
@@ -56,6 +131,14 @@
             // ファイルをデータURLとして読み込む
             fr.readAsDataURL(file);
         });
+
+            // 削除ボタンがクリックされたら、画像を削除
+        deleteButton.addEventListener('click', function () {
+            localStorage.removeItem('profileImage'); // ローカルストレージから削除
+            imageContainer.innerHTML = ''; // 表示されている画像を消す
+            alert('写真を削除しました');
+    });
+
 
 
 </script>

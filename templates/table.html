@@ -3,51 +3,50 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-<div id = "currentuserId">{{user.account_id}}</div>
-
 <div id="month">
-    <button id="prevMonthtable">＜</button>
+    <button id="prevMonth">＜</button>
     <span id="currentYearMonth"></span>
-    <button id="nextMonthtable">＞</button>
+    <button id="nextMonth">＞</button>
 </div>
 <br>
 
 <div id="shiftTable"></div>
 
-<div id="shiftModal" style="display:none;">
-    <h3 id="modalDate"></h3>
+<div id="shiftTableModal" style="display:none;">
+    <h3 id="TablemodalDate"></h3>
     <button id="cancelShift">×</button>
     <label for="shiftInput"></label>
     <!-- <input type="text" id="shiftInput"> -->
     <br>
     <ul>
        <li>
-            <input type="radio" id="lunchShift" name="shiftType" value="△">
-            <label for="lunchShift" class="label">ランチ:△</label>
+            <input type="radio" id="tlunchShift" name="shiftType" value="△">
+            <label for="tlunchShift" class="label">ランチ:△</label>
        </li>
+        <li>
+            <input type="radio" id="t11Shift" name="shiftType" value="△11">
+            <label for="t11Shift" class="label">11時～</label>
+        </li>
        <li>
-            <input type="radio" id="dinnerShift" name="shiftType" value="○">
-            <label for="dinnerShift" class="label">ディナー:○</label>
+            <input type="radio" id="tdinnerShift" name="shiftType" value="◯">
+            <label for="tdinnerShift" class="label">ディナー:◯</label>
+        </li>
+
+        <li>
+            <input type="radio" id="t17Shift" name="shiftType" value="◯17">
+            <label for="t17Shift" class="label">17時～</label>
         </li>
         <li>
-            <input type="radio" id="11Shift" name="shiftType" value="11">
-            <label for="11Shift" class="label">11時～</label>
+            <input type="radio" id="torShift" name="shiftType" value="☆">
+            <label for="torShift" class="label">どっちでも:☆</label>
         </li>
         <li>
-            <input type="radio" id="17Shift" name="shiftType" value="17">
-            <label for="17Shift" class="label">17時～</label>
+            <input type="radio" id="tfullShift" name="shiftType" value="◎">
+            <label for="tfullShift" class="label">オーラス:◎</label>
         </li>
         <li>
-            <input type="radio" id="orShift" name="shiftType" value="☆">
-            <label for="orShift" class="label">どっちでも:☆</label>
-        </li>
-        <li>
-            <input type="radio" id="fullShift" name="shiftType" value="◎">
-            <label for="fullShift" class="label">オーラス:◎</label>
-        </li>
-        <li>
-            <input type="radio" id="NoShift" name="shiftType" value="✕">
-            <label for="NoShift" class="label">休み:×</label>
+            <input type="radio" id="tNoShift" name="shiftType" value="✕">
+            <label for="tNoShift" class="label">休み:×</label>
         </li>
     </ul>
     
@@ -55,14 +54,14 @@
 
     
     <!-- <button id="deleteShift">削除</button> -->
-    <button id="saveEditShift">保存</button>
+    <button id="saveShift">保存</button>
 
 </div>
 
 
 <!-- <div id="shiftInfoContainer"></div> -->
 
-<!-- <script>
+<script>
 
     function getCookie(name) {
        let cookieValue = null;
@@ -82,11 +81,13 @@
    const csrfToken = getCookie('csrftoken');
    const shiftData = JSON.parse('{{ shift_data|escapejs }}');
    shifts = shiftData; 
+   const currentUserID = "{{ request.user.account_id }}";
+//    console.log("user.account_id", currentID);
 
-</script> -->
+</script>
 
 
-<script src="../../static/js/calendar.js"> </script>
+<script src="../../static/js/table.js"> </script>
 
 
 {% endif %}

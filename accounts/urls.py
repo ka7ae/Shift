@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib import admin
 #from django.contrib.auth.views import LoginView, LogoutView 
 from . import views
 #from .views import RegistarView, IndexView, LoginView, LogoutView
@@ -22,6 +23,8 @@ urlpatterns = [
     path('get_shifts/', views.get_shifts, name='get_shifts'),
     path('get_allshifts/', views.get_allshifts, name='get_allshifts'),
     path('get_allaccounts/', views.get_allaccounts, name='get_allaccounts'),
-    # path('like-home/<int:pk>', views.LikeHome.as_view(), name='like-home'),
+    path('password_change/', views.PasswordChange.as_view(), name='password_change'), #追加
+    path('password_change/done/', views.PasswordChangeDone.as_view(), name='password_change_done'),
+    path('admin/', admin.site.urls),
 
 ]

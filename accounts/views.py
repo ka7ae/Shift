@@ -5,10 +5,10 @@ from django.forms import BaseModelForm
 from django.shortcuts import render, redirect
 from .models import User, Shift, Post
 from django.views import View
-from django.views.generic import  CreateView, TemplateView,ListView
+from django.views.generic import  CreateView, TemplateView,ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
+from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import reverse_lazy
 from .forms import RegistarForm , LoginFrom, ShiftForm, PostForm
 from django.http import HttpResponse, JsonResponse
@@ -26,16 +26,8 @@ class RegistarView(CreateView):
     model = User
     form_class = RegistarForm
     template_name = "accounts/registar.html"
-    success_url = reverse_lazy("accounts:table")
+    success_url = reverse_lazy("accounts:registar")
 
-    def form_valid(self, form): #ユーザー作成後そのままログイン状態にする
-        # login after signup
-        response = super().form_valid(form)
-        account_id = form.cleaned_data.get("account_id")
-        password = form.cleaned_data.get("password1")
-        user = authenticate(account_id=account_id, password=password)
-        login(self.request, user)
-        return response
 
 # ログインビューを作成
 class LoginView(BaseLoginView):
@@ -47,24 +39,34 @@ class LogoutView(BaseLogoutView):
     success_url = reverse_lazy("index")
 
 
-class TableView(TemplateView, LoginRequiredMixin):
-    template_name = "table.html"
-    
-# class HomeView(TemplateView, LoginRequiredMixin):
-#     template_name = "home/home.html"
+class PasswordChange(LoginRequiredMixin, PasswordChangeView):
+    """パスワード変更ビュー"""
+    success_url = reverse_lazy('accounts:password_change_done')
+    template_name = 'accounts/password_change.html'
 
-class ProfileView(TemplateView, LoginRequiredMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) # 継承元のメソッドCALL
+        context["form_name"] = "password_change"
+        return context
+    
+
+class PasswordChangeDone(LoginRequiredMixin,PasswordChangeDoneView):
+    """パスワード変更完了"""
+    template_name = 'accounts/password_change_done.html'
+
+
+
+class ProfileView(LoginRequiredMixin, ListView):
+    model = get_user_model()
     template_name = "profile.html"
+    context_object_name = "accounts"
+    paginate_by = 20  # 1ページあたりの表示数
 
-# class CalendarView(TemplateView):
-#     template_name = "calendar.html"
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         shifts = Shift.objects.all()
-#         shift_data = {shift.date.strftime('%Y/%m/%d'): shift.shift for shift in shifts}
-#         context['shifts'] = shift_data
-#         return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_accounts'] = self.model.objects.count()
+        return context
+
 
 class Create_shiftView(View, LoginRequiredMixin):
     def get(self, request, *args, **kwargs):
@@ -72,11 +74,17 @@ class Create_shiftView(View, LoginRequiredMixin):
         shift_data = {shift.date.strftime('%Y-%m-%d'): {'shift_type': shift.shift_type} for shift in shifts}
         return render(request, 'create_shift.html', {'shift_data': json.dumps(shift_data)})
 
+
 class ShiftView(TemplateView, LoginRequiredMixin):
     template_name = "shift.html"
-    
 
 
+class TableView(TemplateView, LoginRequiredMixin):
+    # template_name = "table.html"
+    def get(self, request, *args, **kwargs):
+        shifts = Shift.objects.all()
+        shift_data = {shift.date.strftime('%Y-%m-%d'): {'shift_type': shift.shift_type} for shift in shifts}
+        return render(request, 'table.html', {'shift_data': json.dumps(shift_data)})
 
 
 class BoardView(ListView, LoginRequiredMixin):
@@ -110,11 +118,17 @@ def shift_form(request):
                 shift_date = datetime.datetime.strptime(shift_date, '%Y-%m-%d').date()
             except ValueError:
                 return JsonResponse({'status': 'error', 'message': 'Invalid date format'}, status=400)
-            
-            # shift_instance = Shift(date=shift_date, shift=shift, shift_type=shift_type)
-            shift_instance = Shift(user=user,date=shift_date, shift_type=shift_type)
-# 追記
-            print(f"Shift instance: {shift_instance}")
+
+            # shift_instance = Shift(user=user,date=shift_date, shift_type=shift_type)
+
+            shift_instance = Shift.objects.filter(user=user, date=shift_date).first() #同じ日付とユーザーのシフトが存在するか確認
+
+            if shift_instance:
+                shift_instance.shift_type = shift_type
+                print(f"既存のシフトを更新: {shift_instance}")
+            else:
+                shift_instance = Shift(user=user, date=shift_date, shift_type=shift_type)
+                print(f"新しいシフトを作成: {shift_instance}")
 
             shift_instance.save()
 
