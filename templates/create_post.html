@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="create_post">
+   <p class="createtitle">新規作成</p>
+ <form method="post">
+   {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="sendbutton" value="Send!">
+ </form>
+</div>
+
+ {% endif %}
+{% endblock content %}

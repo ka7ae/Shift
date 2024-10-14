@@ -1,15 +1,13 @@
 const calendarEl = document.getElementById('calendar');
-// const currentDateEl = document.getElementById('currentDate');
 const currentYearMonthEl = document.getElementById('currentYearMonth');
 const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const shiftModal = document.getElementById('shiftModal');
 const modalDateEl = document.getElementById('modalDate');
-// const shiftInput = document.getElementById('shiftInput');
 const saveShiftBtn = document.getElementById('saveShift');
+// const saveEditShiftBtn = document.getElementById('saveEdit');
 const cancelShiftBtn = document.getElementById('cancelShift');
 const deleteShiftBtn = document.getElementById('deleteShift');
-// const csrfToken = getCookie('csrftoken'); // CSRFトークンを取得
 
 
 
@@ -20,6 +18,25 @@ let currentDisplayedMonth = currentMonth;
 const today = new Date();
 let shifts = {}; // シフトを保存するオブジェクト
 
+// console.log("user ID",currentUserID);
+// const canEditAllShifts = currentUserID.startsWith('0'); //0から始まるか確認
+
+// function getCookie(name) {
+//     let cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         const cookies = document.cookie.split(';');
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i].trim();
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
+
+
 function formatDate(date) {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -27,21 +44,13 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
-// function displayCurrentDate() {
-//     currentDateEl.textContent = formatDate(new Date());
-// }
+
 
 function displayCurrentYearMonth(year, month) {
     const monthNames = ["January", "February", "March", "April", "May", "June", 
                         "July", "August", "September", "October", "November", "December"];
     currentYearMonthEl.textContent = `${year}  ${monthNames[month]}`;
 }
-
-// function openShiftModal(date) {
-//     modalDateEl.textContent = formatDate(date);
-//     shiftInput.value = shifts[formatDate(date)] || ''; // 既存のシフト情報を表示
-//     shiftModal.style.display = 'block';
-// }
 
 function openShiftModal(date) {
     const formattedDate = formatDate(date);
@@ -52,9 +61,9 @@ function openShiftModal(date) {
     if (shifts[formattedDate]) {
         const shiftType = shifts[formattedDate].shift_type;
         document.getElementById('lunchShift').checked = shiftType === '△';
-        document.getElementById('dinnerShift').checked = shiftType === '○';
-        document.getElementById('11Shift').checked = shiftType === '11';
-        document.getElementById('17Shift').checked = shiftType === '17';
+        document.getElementById('dinnerShift').checked = shiftType === '◯';
+        document.getElementById('11Shift').checked = shiftType === '△11';
+        document.getElementById('17Shift').checked = shiftType === '◯17';
         document.getElementById('orShift').checked = shiftType === '☆';
         document.getElementById('fullShift').checked = shiftType === '◎';
         document.getElementById('NoShift').checked = shiftType === '✕';
@@ -96,9 +105,7 @@ async function deleteShift(date, shiftType) {
         }
 
         console.log('Shift deleted successfully');
-        // delete shifts[formatDateForDeletion(date)];
         delete shifts[formatDate(new Date(date))];
-        // shifts[date] = { shift, shift_type: shiftType };
         closeShiftModal();
         generateCalendar(currentYear, currentDisplayedMonth);
         
@@ -134,7 +141,6 @@ async function saveShift(date,  shiftType) {
 
         console.log('Shift saved successfully'); 
         shifts[date] = { shift_type: shiftType }; //シフトデータを更新
-        // console.log(shiftType);
         generateCalendar(currentYear, currentDisplayedMonth); // カレンダーを再描画
         closeShiftModal();
     } catch (error) {
@@ -167,18 +173,10 @@ function generateCalendar(year, month) {
         const date = new Date(year, month, i);
 
         const formattedDate = formatDate(date);
-        // console.log(formattedDate);
         const shiftData = shifts[formattedDate] || {};
         const shiftType = shiftData.shift_type ? shiftData.shift_type : '';
         calendarHtml += `<td class="${isToday ? 'today' : ''}" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${i}<br>${shiftType}</td>`;
-        
-
-
-        // const shift = shifts[formattedDate] ? shifts[formattedDate].shift_type : '';
-        // const shift = shiftData[formattedDate] ? shiftData[formattedDate].shift_type : '';
-        // calendarHtml += `<td class="${isToday ? 'today' : ''}" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${i}<br>${shift}</td>`;
-        // calendarHtml += `<td class="${isToday ? 'today' : ''}" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${i}<br>${shifts[formattedDate] || ''}</td>`;
-        // calendarHtml += `<td class="${isToday ? 'today' : ''}" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${i}<br>${shifts[formatDate(date)] || ''}</td>`;
+    
     }
 
     const lastDay = new Date(year, month, daysInMonth).getDay();
@@ -189,6 +187,7 @@ function generateCalendar(year, month) {
     calendarEl.innerHTML = calendarHtml;
     displayCurrentYearMonth(year, month); // 現在の月と年を表示
 }
+
 
 
 async function fetchShifts() {
@@ -219,8 +218,6 @@ async function fetchShifts() {
         console.error('Error fetching shifts:', error);
     }
 }
-
-
 
 prevMonthBtn.addEventListener('click', () => {
     currentDisplayedMonth--;
@@ -259,17 +256,14 @@ cancelShiftBtn.addEventListener('click', closeShiftModal);
 
 deleteShiftBtn.addEventListener('click', () => {
     const date = modalDateEl.textContent;
-    // const shift = shiftInput.value;
     const shiftTypeElement = document.querySelector('input[name="shiftType"]:checked');
     const shiftType = shiftTypeElement.value;
-    // console.log(shiftType);
     deleteShift(date, shiftType);
-    // deleteShift(formatDateForDeletion(new Date(date)), shift, shiftType);  // 修正: 引数を追加
 });
-
 
 
 
 // 初期表示
 // displayCurrentDate();
 fetchShifts(); // ページロード時にシフトデータを取得
+// document.addEventListener('DOMContentLoaded', initializeData);

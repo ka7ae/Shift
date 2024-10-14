@@ -28,15 +28,15 @@
                 <label for="lunchShift" class="label">ランチ:△</label>
            </li>
            <li>
-                <input type="radio" id="dinnerShift" name="shiftType" value="○">
-                <label for="dinnerShift" class="label">ディナー:○</label>
+                <input type="radio" id="dinnerShift" name="shiftType" value="◯">
+                <label for="dinnerShift" class="label">ディナー:◯</label>
             </li>
             <li>
-                <input type="radio" id="11Shift" name="shiftType" value="11">
+                <input type="radio" id="11Shift" name="shiftType" value="△11">
                 <label for="11Shift" class="label">11時～</label>
             </li>
             <li>
-                <input type="radio" id="17Shift" name="shiftType" value="17">
+                <input type="radio" id="17Shift" name="shiftType" value="◯17">
                 <label for="17Shift" class="label">17時～</label>
             </li>
             <li>
@@ -62,7 +62,6 @@
 </div>
 
 
-<!-- <input type = "hidden" id = "csrfToken" value = "{% csrf_token %}" > -->
 
 <script>
 
@@ -82,7 +81,6 @@
     }
 
     const csrfToken = getCookie('csrftoken');
-    // const shifts = JSON.parse('{{ shifts|safe }}');
     const shiftData = JSON.parse('{{ shift_data|escapejs }}');
     shifts = shiftData; 
 

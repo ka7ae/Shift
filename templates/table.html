@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+<div id="month">
+    <button id="prevMonth">＜</button>
+    <span id="currentYearMonth"></span>
+    <button id="nextMonth">＞</button>
+</div>
+<br>
+
+<div id="shiftTable"></div>
+
+<div id="shiftTableModal" style="display:none;">
+    <h3 id="TablemodalDate"></h3>
+    <button id="cancelShift">×</button>
+    <label for="shiftInput"></label>
+    <!-- <input type="text" id="shiftInput"> -->
+    <br>
+    <ul>
+       <li>
+            <input type="radio" id="tlunchShift" name="shiftType" value="△">
+            <label for="tlunchShift" class="label">ランチ:△</label>
+       </li>
+        <li>
+            <input type="radio" id="t11Shift" name="shiftType" value="△11">
+            <label for="t11Shift" class="label">11時～</label>
+        </li>
+       <li>
+            <input type="radio" id="tdinnerShift" name="shiftType" value="◯">
+            <label for="tdinnerShift" class="label">ディナー:◯</label>
+        </li>
+
+        <li>
+            <input type="radio" id="t17Shift" name="shiftType" value="◯17">
+            <label for="t17Shift" class="label">17時～</label>
+        </li>
+        <li>
+            <input type="radio" id="torShift" name="shiftType" value="☆">
+            <label for="torShift" class="label">どっちでも:☆</label>
+        </li>
+        <li>
+            <input type="radio" id="tfullShift" name="shiftType" value="◎">
+            <label for="tfullShift" class="label">オーラス:◎</label>
+        </li>
+        <li>
+            <input type="radio" id="tNoShift" name="shiftType" value="✕">
+            <label for="tNoShift" class="label">休み:×</label>
+        </li>
+    </ul>
+    
+    <br>
+
+    
+    <!-- <button id="deleteShift">削除</button> -->
+    <button id="saveShift">保存</button>
+
+</div>
+
+
+<!-- <div id="shiftInfoContainer"></div> -->
+
+<script>
+
+    function getCookie(name) {
+       let cookieValue = null;
+       if (document.cookie && document.cookie !== '') {
+           const cookies = document.cookie.split(';');
+           for (let i = 0; i < cookies.length; i++) {
+               const cookie = cookies[i].trim();
+               if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                   break;
+               }
+           }
+       }
+       return cookieValue;
+   }
+
+   const csrfToken = getCookie('csrftoken');
+   const shiftData = JSON.parse('{{ shift_data|escapejs }}');
+   shifts = shiftData; 
+   const currentUserID = "{{ request.user.account_id }}";
+//    console.log("user.account_id", currentID);
+
+</script>
+
+
+<script src="../../static/js/table.js"> </script>
+
+
+{% endif %}
+{% endblock content %}

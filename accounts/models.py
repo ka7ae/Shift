@@ -11,29 +11,26 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, email,  account_id, password, **extra_fields):
-        email = self.normalize_email(email)
-        user = self.model(email=email, account_id=account_id, **extra_fields)
+    def _create_user(self,  account_id, password, **extra_fields):
+        user = self.model(account_id=account_id, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_user(self, email,  account_id, password=None, **extra_fields):
+    def create_user(self, account_id, password=None, **extra_fields):
             extra_fields.setdefault('is_staff', False)
             extra_fields.setdefault('is_superuser', False)
             return self._create_user(
-                email=email,
                 account_id=account_id,
                 password=password,
                 **extra_fields,
             )
 
-    def create_superuser(self, email,account_id, password, **extra_fields):
+    def create_superuser(self, account_id, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self._create_user(
-            email=email,
             account_id=account_id,
             password=password,
             **extra_fields,
@@ -55,18 +52,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True
     )
 
-
-
     account_id = models.CharField(
         verbose_name=_("account_id"),
         unique=True,
         max_length=10
     )
 
-    email = models.EmailField(
-        verbose_name=_("email"),
-        unique=True
-    )
     
     is_staff = models.BooleanField(
         verbose_name=_('staff status'),
@@ -86,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['email','last_name','first_name']  # スーパーユーザー作成時にemailも設定する
+    REQUIRED_FIELDS = ['last_name','first_name']  # スーパーユーザー作成時にemailも設定する
 
     def __str__(self):
         # return self.account_id
@@ -104,7 +95,7 @@ class Shift(models.Model):
     date = models.DateField()
     shift_type = models.CharField(max_length=10, choices=(
         ('△', '△'),
-        ('○', '○'),
+        ('◯', '◯'),
         ('11~', '11~'),
         ('17~', '17~'),
         ('☆', '☆'),
@@ -116,20 +107,11 @@ class Shift(models.Model):
         return f"{self.user}: {self.date} ({self.shift_type})"
         # return f"{self.date}: {self.shift} ({self.shift_type})"
 
-    # @property
-    # def first_name(self):
-    #     return self.user.firstname
-    
-    # @property
-    # def last_name(self):
-    #     return self.user.lastname
     
 class Post(models.Model):
     title = models.CharField(max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()
-    
-    # like = models.ManyToManyField(User, related_name='related_post', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

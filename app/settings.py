@@ -161,7 +161,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'index' #ログインが必要なページに承認していないユーザーがアクセスした場合にredirectされるURL
-LOGIN_REDIRECT_URL = "accounts:home"  #ログインごのredirectのURL
+LOGIN_REDIRECT_URL = "accounts:table"  #ログインごのredirectのURL
 LOGOUT_REDIRECT_URL = "accounts:login" #ログアウト後のredirectのURL
 
+# セッションが有効な時間を指定（ここでは30分）
+SESSION_COOKIE_AGE = 30 * 60  # 30分
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # ブラウザを閉じたらログアウト
 
