@@ -33,7 +33,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
-SECRET_KEY = env('SECREST_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 
 
