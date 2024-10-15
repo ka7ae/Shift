@@ -7,9 +7,9 @@ User = get_user_model()
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        if not User.objects.filter(account_id=settings.SUPERUSER_NAME).exists():
+        if not User.objects.filter(username=settings.SUPERUSER_NAME).exists():
             User.objects.create_superuser(
-                account_id=settings.SUPERUSER_ACCOUNT_ID,
+                username=settings.SUPERUSER_NAME,
                 last_name=settings.SUPERUSER_LAST_NAME,
                 first_name=settings.SUPERUSER_FIRST_NAME,
                 password=settings.SUPERUSER_PASSWORD
