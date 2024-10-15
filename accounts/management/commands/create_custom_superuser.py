@@ -8,14 +8,14 @@ class Command(BaseCommand):
     help = 'Creates a superuser non-interactively'
 
     def handle(self, *args, **options):
-        username = settings.SUPERUSER_NAME
-        if not User.objects.filter(username=username).exists():
+        account_id = settings.SUPERUSER_ACCOUNT_ID
+        if not User.objects.filter(account_id=account_id).exists():
             User.objects.create_superuser(
-                username=username,
+                account_id=account_id,
                 last_name=settings.SUPERUSER_LAST_NAME,
                 first_name=settings.SUPERUSER_FIRST_NAME,
                 password=settings.SUPERUSER_PASSWORD
             )
-            self.stdout.write(self.style.SUCCESS(f'Superuser {username} created successfully'))
+            self.stdout.write(self.style.SUCCESS(f'Superuser with account_id {account_id} created successfully'))
         else:
-            self.stdout.write(self.style.WARNING(f'Superuser {username} already exists'))
+            self.stdout.write(self.style.WARNING(f'Superuser with account_id {account_id} already exists'))
