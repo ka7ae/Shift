@@ -117,10 +117,14 @@ function generateShiftTable(year, month) {
         allAccounts.forEach(account => {
             const shiftData = Array.isArray(shifts[formattedDate]) 
                   ? shifts[formattedDate].find(s => s.user === account.account_id) : null;
-            const shiftType = shiftData?shiftData.shift_type : '';
+            const shiftType = shiftData?shiftData.shift_type:'';
 
-            if( canEditAllShifts || currentUserID === account.account_id){
-                tableHtml += `<td class="shift_symbol" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${shiftType}</td>`;
+            if(shiftType !== ''){
+                if( canEditAllShifts || currentUserID === account.account_id){
+                    tableHtml += `<td class="shift_symbol" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${shiftType}</td>`;
+                }else{
+                    tableHtml += `<td class="shift_symbol">${shiftType}</td>`;
+                }
             }else{
                 tableHtml += `<td class="shift_symbol">${shiftType}</td>`;
             }

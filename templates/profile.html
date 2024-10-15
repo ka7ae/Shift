@@ -14,8 +14,7 @@
 
 
 
-<!-- {% if user.account_id|stringformat:"s"|first == "0" %} -->
-{% if user.is_superuser %}
+{% if user.account_id|stringformat:"s"|first == "0" %}
 <!-- account_idが0で始まるユーザーにのみ表示されるコンテンツ -->
     <div class="registar-button">
         <h3>ユーザー登録する</h3>
