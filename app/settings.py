@@ -42,7 +42,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'django-render-oemw.onrender.com:10000']
+ALLOWED_HOSTS = ['127.0.0.1', 'django-render-oemw.onrender.com']
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
