@@ -350,9 +350,9 @@ th, td {
 
 th {
     /* background-color: #be781670; */
-    background: #270a16;
+    background: #d2e4c3;
     /* background: #270a16; */
-    color: #fff;
+    color:#668251;
     /* color: #668251; */
 }
 
@@ -367,8 +367,8 @@ td {
 }
 
 #month button{
-    background-color:#270a16;
-    color: #fff;
+    background-color:#d2e4c3;
+    color: #270a16;
     /* color:#fceda3; */
     border-radius: 60%;
     border:1px solid #270a16;
@@ -503,13 +503,13 @@ input[type="radio"]:checked + label {  /*クリックしたときの色 */
 }
 
 #shiftTable th {
-    background-color: #270a16;
+    background-color: #d2e4c3;
 }
 
 #shiftTable td:first-child {
     font-weight: bold;
-    background-color: #270a16;
-    color: #fff;
+    background-color: #d2e4c3;
+    color: #270a16;
 }
 
 #shiftTableModal{
