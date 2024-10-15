@@ -5,7 +5,7 @@ from django.conf import settings
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Creates a superuser non-interactively if it does not exist'
+    help = 'Creates a superuser non-interactively'
 
     def handle(self, *args, **options):
         username = settings.SUPERUSER_NAME
