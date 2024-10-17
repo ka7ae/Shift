@@ -167,7 +167,7 @@ async function saveShift(date,  shiftType) {
 
         console.log('Shift saved successfully'); 
         shifts[date] = { shift_type: shiftType }; //シフトデータを更新
-        generateShiftTable(currentYear, currentDisplayedMonth); // カレンダーを再描画
+        generateShiftTable(currentDate.getFullYear(), currentDate.getMonth()); // カレンダーを再描画
         closeShiftModal();
     } catch (error) {
         console.error('Error saving shift:', error);
