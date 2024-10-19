@@ -60,31 +60,63 @@ saveShiftBtn.addEventListener('click', () => {
 cancelShiftBtn.addEventListener('click', closeShiftModal);
 
 
-function openShiftModal(date) {
+function openShiftModal(date, userId) {
     const formattedDate = formatDate(date);
     modalDateEl.textContent = formattedDate;
+    modalDateEl.dataset.userId = userId;
 
     // シフトデータの存在を確認
-    if (shifts[formattedDate] && shifts[formattedDate][0]) { 
-        const shiftData = shifts[formattedDate][0]; // 配列の最初の要素を取得
- 
-        // shift_type が存在するか確認
-        if (shiftData.shift_type) {
-            const shiftType = shiftData.shift_type;
+    if (shifts[formattedDate]) {
+        // 選択されたユーザーのシフトデータを検索
+        const userShiftData = shifts[formattedDate].find(shift => shift.user === userId);
 
-            // 各チェックボックスの設定
-            document.getElementById('tlunchShift').checked = shiftType === '△';
-            document.getElementById('t11Shift').checked = shiftType === '△11';
-            document.getElementById('tdinnerShift').checked = shiftType === '◯';
-            document.getElementById('t17Shift').checked = shiftType === '◯17';
-            document.getElementById('torShift').checked = shiftType === '☆';
-            document.getElementById('tfullShift').checked = shiftType === '◎';
-            document.getElementById('tNoShift').checked = shiftType === '✕';
+        if (userShiftData && userShiftData.shift_type) {
+            const shiftType = userShiftData.shift_type;
+
+            // 全てのチェックボックスを一旦リセット
+            document.querySelectorAll('input[name="shiftType"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // 該当するシフトタイプのチェックボックスを設定
+            switch (shiftType) {
+                case '△':
+                    document.getElementById('tlunchShift').checked = true;
+                    break;
+                case '△11':
+                    document.getElementById('t11Shift').checked = true;
+                    break;
+                case '◯':
+                    document.getElementById('tdinnerShift').checked = true;
+                    break;
+                case '◯17':
+                    document.getElementById('t17Shift').checked = true;
+                    break;
+                case '☆':
+                    document.getElementById('torShift').checked = true;
+                    break;
+                case '◎':
+                    document.getElementById('tfullShift').checked = true;
+                    break;
+                case '✕':
+                    document.getElementById('tNoShift').checked = true;
+                    break;
+                default:
+                    console.log(`Unknown shift type: ${shiftType}`);
+            }
         } else {
-            console.log("No shift_type found for the selected date.");
+            console.log(`No shift data found for user ${userId} on ${formattedDate}`);
+            // 全てのチェックボックスをリセット
+            document.querySelectorAll('input[name="shiftType"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
         }
     } else {
-        console.log("No shift data found for the selected date.");
+        console.log(`No shift data found for date ${formattedDate}`);
+        // 全てのチェックボックスをリセット
+        document.querySelectorAll('input[name="shiftType"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
     }
 
     shiftModal.style.display = 'block';
@@ -121,7 +153,7 @@ function generateShiftTable(year, month) {
 
             if(shiftType !== ''){
                 if( canEditAllShifts || currentUserID === account.account_id){
-                    tableHtml += `<td class="shift_symbol" onclick="openShiftModal(new Date(${year}, ${month}, ${i}))">${shiftType}</td>`;
+                    tableHtml += `<td class="shift_symbol" onclick="openShiftModal(new Date(${year}, ${month}, ${i}), '${account.account_id}')">${shiftType}</td>`;
                 }else{
                     tableHtml += `<td class="shift_symbol">${shiftType}</td>`;
                 }
@@ -143,8 +175,10 @@ function generateShiftTable(year, month) {
 }
 
 async function saveShift(date,  shiftType) {
-    const url = '/shift_form/';  // DjangoのビューにPOSTするURL
-    const data = { date,  shift_type: shiftType };
+    const url = canEditAllShifts && userId !== currentUserID
+        ? '/shift_edit/'
+        : '/shift_form/';
+    const data = { date,  shift_type: shiftType, user_id: userId  };
 
     try {
         const response = await fetch(url, {
@@ -166,7 +200,15 @@ async function saveShift(date,  shiftType) {
         }
 
         console.log('Shift saved successfully'); 
-        shifts[date] = { shift_type: shiftType }; //シフトデータを更新
+
+        if (!shifts[date]) shifts[date] = [];
+        const existingShiftIndex = shifts[date].findIndex(s => s.user === userId);
+        if (existingShiftIndex !== -1) {
+            shifts[date][existingShiftIndex].shift_type = shiftType;
+        } else {
+            shifts[date].push({ user: userId, shift_type: shiftType });
+        }
+        
         generateShiftTable(currentDate.getFullYear(), currentDate.getMonth()); // カレンダーを再描画
         closeShiftModal();
     } catch (error) {
