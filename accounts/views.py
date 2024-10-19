@@ -235,7 +235,7 @@ def get_allshifts(request):
 
 def get_allaccounts(request):
     if request.method == 'GET':
-            accounts = User.objects.all().values('account_id', 'first_name')
+            accounts = User.objects.all().order_by('account_id').values('account_id', 'first_name')
     return JsonResponse({'accounts': list(accounts)})
 
 
