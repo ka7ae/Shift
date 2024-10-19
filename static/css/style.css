@@ -339,6 +339,11 @@ table {
     color: #270a16
 }
 
+thead{
+    position: sticky;
+    top: 0;
+}
+
 th, td {
     border: 1px solid #270a16;
     padding: 0px;
