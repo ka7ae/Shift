@@ -39,7 +39,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['127.0.0.1', 'django-render-oemw.onrender.com']

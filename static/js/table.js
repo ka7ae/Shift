@@ -174,7 +174,7 @@ function generateShiftTable(year, month) {
 
 }
 
-async function saveShift(date,  shiftType) {
+async function saveShift(date,  shiftType, userId) {
     const url = canEditAllShifts && userId !== currentUserID
         ? '/shift_edit/'
         : '/shift_form/';
@@ -208,7 +208,7 @@ async function saveShift(date,  shiftType) {
         } else {
             shifts[date].push({ user: userId, shift_type: shiftType });
         }
-        
+
         generateShiftTable(currentDate.getFullYear(), currentDate.getMonth()); // カレンダーを再描画
         closeShiftModal();
     } catch (error) {
