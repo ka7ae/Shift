@@ -45,7 +45,7 @@ nextMonthBtn.addEventListener('click', () => {
 
 saveShiftBtn.addEventListener('click', () => {
     const date = modalDateEl.textContent;
-    // const shift = shiftInput.value;
+    const userId = modalDateEl.dataset.userId;
     const shiftTypeElement = document.querySelector('input[name="shiftType"]:checked');
 
     if (!shiftTypeElement) {
@@ -54,7 +54,7 @@ saveShiftBtn.addEventListener('click', () => {
     }
 
     const shiftType = shiftTypeElement.value;
-    saveShift(date, shiftType);
+    saveShift(date, shiftType, userId);
 });
 
 cancelShiftBtn.addEventListener('click', closeShiftModal);

@@ -8,6 +8,8 @@ from django.contrib.auth.models import (BaseUserManager,
                                         AbstractBaseUser,
                                         PermissionsMixin)
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class UserManager(BaseUserManager):
@@ -115,7 +117,14 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user}: {self.title}: {self.message} ({self.message})"
+        return f"{self.user}: {self.title}: {self.message} ({self.created_at})"
     
     class Meta:
         ordering = ["-created_at"] #投稿順にクエリを取得
+
+
+@receiver(post_save, sender=Post)
+def limit_posts(sender, instance, **kwargs):
+    if Post.objects.count() > 10:
+        posts_to_delete = Post.objects.order_by('-created_at')[10:]
+        Post.objects.filter(id__in=posts_to_delete).delete()

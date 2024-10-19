@@ -99,6 +99,35 @@ class CreatePostView(CreateView, LoginRequiredMixin):
     # fields = ['title','message']
     success_url = reverse_lazy("accounts:board")
 
+@csrf_exempt 
+def shift_edit(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            shift_date = data['date']
+            shift_type = data['shift_type']
+            user_id = data['user_id']
+
+            print(f"Received data for admin edit: {data}")
+            
+            try:
+                shift_date = datetime.datetime.strptime(shift_date, '%Y-%m-%d').date()
+            except ValueError:
+                return JsonResponse({'status': 'error', 'message': 'Invalid date format'}, status=400)
+
+
+            shift_instance = Shift.objects.filter(date=shift_date).first() #同じ日付とユーザーのシフトが存在するか確認
+            print(f"shift_instance :{shift_instance}")
+            shift_instance.shift_type = shift_type
+            print(f"既存のシフトを更新: {shift_instance}")
+
+            shift_instance.save()
+
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            print(f"Error: {str(e)}")  # コンソールにエラーメッセージを表示
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
     
 @csrf_exempt 

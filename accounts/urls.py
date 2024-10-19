@@ -18,6 +18,7 @@ urlpatterns = [
     path('table/', views.TableView.as_view(), name="table"),
     path('board/', views.BoardView.as_view(), name="board"),
     path('create/', views.CreatePostView.as_view(), name="create"),
+    path('shift_edit/', views.shift_edit, name='shift_edit'),
     path('shift_form/', views.shift_form, name='shift_form'),
     path('shift_delete/', views.shift_delete, name='shift_delete'),
     path('get_shifts/', views.get_shifts, name='get_shifts'),
@@ -25,6 +26,6 @@ urlpatterns = [
     path('get_allaccounts/', views.get_allaccounts, name='get_allaccounts'),
     path('password_change/', views.PasswordChange.as_view(), name='password_change'), #追加
     path('password_change/done/', views.PasswordChangeDone.as_view(), name='password_change_done'),
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
 
 ]
